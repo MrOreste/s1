@@ -527,23 +527,50 @@ function battleships(root,key){
 }
 
 /* ================= JOHNNY'S BUG HUNT ================= */
-function bugLine(types,want){let e,v,w;const t=pick(types);
-  if(t===1){let a,b;do{a=rndNZ(-9,9);b=rndNZ(-9,9)}while(a>0&&b>0);e=`${fmt(a)} × ${br(b)}`;v=a*b;w=-v}
-  else if(t===2){let b,q;do{b=rndNZ(-9,9);q=rndNZ(-9,9)}while(b>0&&q>0);e=`${fmt(b*q)} ÷ ${br(b)}`;v=q;w=-q}
-  else if(t===3){const a=rnd(-12,-2),b=rnd(1,9);e=`${fmt(a)} − ${b}`;v=a-b;w=a+b}
-  else if(t===4){const a=rnd(1,9),b=rnd(2,6),c=rnd(2,6);e=`${a} + ${b} × ${c}`;v=a+b*c;w=(a+b)*c}
-  else if(t===5){const b=rnd(2,7);if(Math.random()<.5){e=`(${MINUS}${b})²`;v=b*b;w=-b*b}else{e=`${MINUS}${b}²`;v=-b*b;w=b*b}}
-  else if(t===6){const a=rnd(-12,-1);e=`|${fmt(a)}|`;v=-a;w=a}
-  else if(t===7){const a=rnd(-6,10),b=rnd(1,9);e=`${fmt(a)} − (${MINUS}${b})`;v=a+b;w=a-b}
-  else{const a=rndNZ(-9,9);e=Math.random()<.5?`${fmt(a)} × 0`:`0 × ${br(a)}`;v=0;w=a}
-  const bug=(want===undefined?Math.random()<.4:want)&&w!==v;return{text:`${e} = ${fmt(bug?w:v)}`,bug,fix:`${e} = ${fmt(v)}`}}
+const bgN=()=>-rnd(2,9),bgP=()=>rnd(2,9);
+/* each maker returns [expression, right value, common wrong values] */
+const BUG_BANK={
+ mulMix:()=>{const a=bgP(),b=bgN();return Math.random()<.5?[`${a} × ${br(b)}`,a*b,[-a*b]]:[`${fmt(b)} × ${a}`,a*b,[-a*b]]},
+ mulNeg:()=>{const a=bgN(),b=bgN();return[`${fmt(a)} × ${br(b)}`,a*b,[-a*b]]},
+ mul3:()=>{const a=rndNZ(-4,4),b=rndNZ(-4,4),c=-rnd(2,3);return[`${fmt(a)} × ${br(b)} × ${br(c)}`,a*b*c,[-a*b*c]]},
+ divMix:()=>{const b=pick([-1,1])*rnd(2,9),q=bgN();return[`${fmt(b*q)} ÷ ${br(b)}`,q,[-q]]},
+ divPos:()=>{const b=bgN(),q=bgP();return[`${fmt(b*q)} ÷ ${br(b)}`,q,[-q]]},
+ zeroMul:()=>{const a=rndNZ(-9,9);return[Math.random()<.5?`${fmt(a)} × 0`:`0 × ${br(a)}`,0,[a]]},
+ zeroDiv:()=>{const a=rndNZ(-9,9);return[`0 ÷ ${br(a)}`,0,[a,1]]},
+ oneMul:()=>{const a=rndNZ(-12,12);return Math.random()<.5?[`${fmt(a)} × 1`,a,[1,-a]]:[`${fmt(a)} × (${MINUS}1)`,-a,[a,-1]]},
+ oneDiv:()=>{const a=rndNZ(-12,12);const t=rnd(1,3);return t===1?[`${fmt(a)} ÷ 1`,a,[1,-a]]:t===2?[`${fmt(a)} ÷ (${MINUS}1)`,-a,[a]]:[`${fmt(a)} ÷ ${br(a)}`,1,[0,a]]},
+ subNP:()=>{const a=-rnd(2,12),b=rnd(1,9);return[`${fmt(a)} − ${b}`,a-b,[a+b,-a-b]]},
+ subNeg:()=>{const a=rnd(-6,10),b=rnd(1,9);return[`${fmt(a)} − (${MINUS}${b})`,a+b,[a-b]]},
+ addNeg:()=>{const a=rnd(1,12),b=rnd(1,12);return[`${a} + (${MINUS}${b})`,a-b,[a+b,b-a]]},
+ negPos:()=>{const a=rnd(2,12),b=rnd(1,12);return[`${MINUS}${a} + ${b}`,b-a,[-(a+b),a-b]]},
+ negNeg:()=>{const a=rnd(2,9),b=rnd(2,9);return[`${MINUS}${a} + (${MINUS}${b})`,-(a+b),[a+b,b-a,a-b]]},
+ smallBig:()=>{const a=rnd(1,9),b=a+rnd(1,9);return[`${a} − ${b}`,a-b,[b-a]]},
+ abs1:()=>{const a=rnd(1,12);return Math.random()<.6?[`|${MINUS}${a}|`,a,[-a]]:[`${MINUS}|${MINUS}${a}|`,-a,[a]]},
+ abs2:()=>{const a=rnd(1,9),b=a+rnd(1,9);return[`|${a} − ${b}|`,b-a,[a-b,a+b]]},
+ absSum:()=>{const a=rnd(2,9),b=rnd(2,9);return[`|${MINUS}${a}| + |${MINUS}${b}|`,a+b,[-(a+b),0]]},
+ addMul:()=>{const a=rnd(1,9),b=rnd(2,6),c=rnd(2,6);return[`${a} + ${b} × ${c}`,a+b*c,[(a+b)*c]]},
+ subMul:()=>{const b=rnd(2,5),c=rnd(2,5),a=rnd(b+1,20);return[`${a} − ${b} × ${c}`,a-b*c,[(a-b)*c]]},
+ brMul:()=>{const a=rnd(1,9),b=rnd(1,9),c=rnd(2,6);return[`(${a} + ${b}) × ${c}`,(a+b)*c,[a+b*c]]},
+ subAdd:()=>{const b=rnd(2,9),c=rnd(1,9),a=rnd(b+c,25);return[`${a} − ${b} + ${c}`,a-b+c,[a-b-c]]},
+ divMul:()=>{const b=rnd(2,3),c=rnd(2,3),k=rnd(1,3),a=b*c*k;return[`${a} ÷ ${b} × ${c}`,a/b*c,[k]]},
+ addDiv:()=>{const c=rnd(2,5),b=c*rnd(2,5),a=c*rnd(1,4);return[`${a} + ${b} ÷ ${c}`,a+b/c,[(a+b)/c]]},
+ sqNeg:()=>{const b=rnd(2,7);return Math.random()<.5?[`(${MINUS}${b})²`,b*b,[-b*b,-2*b]]:[`${MINUS}${b}²`,-b*b,[b*b]]},
+ sq:()=>{const b=rnd(3,9);return[`${b}²`,b*b,[2*b]]},
+ addSq:()=>{const a=rnd(1,6),b=rnd(2,5);return[`${a} + ${b}²`,a+b*b,[(a+b)**2,a+2*b]]},
+ mulSq:()=>{const a=rnd(2,4),b=rnd(2,4);return[`${a} × ${b}²`,a*b*b,[(a*b)**2,a*b*2]]},
+ cubeNeg:()=>{const b=rnd(2,3);return[`(${MINUS}${b})³`,-(b**3),[b**3,-3*b]]}};
+function bugLine(types,want,used){for(let k=0;;k++){const[e,v,ws]=BUG_BANK[pick(types)]();const w=pick(ws.filter(x=>x!==v));const bug=want===undefined?Math.random()<.5:want;
+    const text=`${e} = ${fmt(bug?w:v)}`;if(w===undefined||(used&&used.has(e)&&k<30))continue;used&&used.add(e);return{text,bug,fix:`${e} = ${fmt(v)}`}}}
+const BUG_MD=['mulMix','mulNeg','mul3','divMix','divPos','zeroMul','zeroDiv','oneMul','oneDiv'],BUG_AS=['subNP','subNeg','addNeg','negPos','negNeg','smallBig','abs1','abs2','absSum'],BUG_BI=['addMul','subMul','brMul','subAdd','divMul','addDiv','sqNeg','sq','addSq','mulSq','cubeNeg'],BUG_ALL=[...BUG_MD,...BUG_AS,...BUG_BI];
 const BUG_LEVELS=[
-  {name:'Multiply and divide',types:[1,2,8],speed:22,gap:4.2,lines:8},
-  {name:'Adding and subtracting',types:[3,6,7],speed:26,gap:3.8,lines:8},
-  {name:'Mixed signs',types:[1,2,3,6,7,8],speed:30,gap:3.4,lines:10},
-  {name:'BIDMAS and squares',types:[4,5],speed:33,gap:3.2,lines:10},
-  {name:'Everything!',types:[1,2,3,4,5,6,7,8],speed:38,gap:2.9,lines:12}];
-const bugLevel=n=>n<=BUG_LEVELS.length?BUG_LEVELS[n-1]:{name:'Speed run',types:[1,2,3,4,5,6,7,8],speed:38+(n-5)*6,gap:Math.max(1.4,2.9-(n-5)*.25),lines:12};
+  {name:'Multiply and divide',types:BUG_MD,speed:22,gap:4.2,lines:8},
+  {name:'Adding and subtracting',types:BUG_AS,speed:26,gap:3.8,lines:8},
+  {name:'Mixed signs',types:[...BUG_MD,...BUG_AS],speed:30,gap:3.4,lines:10},
+  {name:'BIDMAS and squares',types:BUG_BI,speed:33,gap:3.2,lines:10},
+  {name:'Everything!',types:BUG_ALL,speed:38,gap:2.9,lines:12}];
+const bugLevel=n=>n<=BUG_LEVELS.length?BUG_LEVELS[n-1]:{name:'Speed run',types:BUG_ALL,speed:38+(n-5)*6,gap:Math.max(1.4,2.9-(n-5)*.25),lines:12};
+/* half the lines are wrong, never more than two of the same kind in a row */
+function bugDeck(n){const nb=Math.floor(n/2)+(n%2?rnd(0,1):0);for(;;){const d=shuffle(Array.from({length:n},(_,i)=>i<nb));if(!d.some((x,i)=>i>1&&x===d[i-1]&&x===d[i-2]))return d}}
 function bugHunt(root,key){
   root.innerHTML=`<div class="stage"><div class="hud"><span class="hs"></span><span class="lvl lv"></span><span class="pts"></span></div><div class="lane"></div><div class="fastb">⏩ ×3</div></div>`;
   const stage=$('.stage',root),lane=$('.lane',root);let fast=false;const setFast=f=>{fast=f&&run;stage.classList.toggle('fast',fast)};
@@ -552,18 +579,18 @@ function bugHunt(root,key){
   const hud=()=>{$('.hs',root).textContent=hearts(lives);$('.pts',root).textContent=`⭐ ${score}`;$('.lv',root).textContent=`Level ${level} · ${Math.min(done,L.lines)}/${L.lines}`};
   function lose(msg){lives--;stage.classList.add('shake');setTimeout(()=>stage.classList.remove('shake'),300);toast(stage,msg,'#f87171');hud();if(lives<=0)end()}
   function resolved(){done++;hud();if(run&&done>=L.lines&&items.every(it=>it.done))levelUp()}
-  function spawn(){const Q=bugLine(L.types,deck[spawned]),d=document.createElement('div');d.className='bug';d.textContent=Q.text;lane.appendChild(d);
+  function spawn(){const Q=bugLine(L.types,deck[spawned],used),d=document.createElement('div');d.className='bug';d.textContent=Q.text;lane.appendChild(d);
     const W=lane.clientWidth,w=d.offsetWidth;const it={d,L:Q,y:-44,x:rnd(6,Math.max(6,W-w-6))};d.style.left=it.x+'px';d.style.top=it.y+'px';
     d.onpointerdown=e=>{e.preventDefault();if(!run||it.done)return;it.done=true;
       if(Q.bug){d.classList.add('squash');squashed++;score+=10*level;toast(stage,'SQUASH! 🐞');resolved()}
       else{d.classList.add('oops');later(()=>d.remove(),400);lose('That one was right!');if(run)resolved()}};
     items.push(it);spawned++}
-  let spawned=0,deck=[];
+  let spawned=0,deck=[],used;
   function tick(dt){if(!run)return;if(fast)dt*=3;spawnT-=dt;if(spawnT<=0&&spawned<L.lines){spawn();spawnT=L.gap}
     const H=lane.clientHeight;for(const it of items){if(it.done)continue;it.y+=L.speed*dt;it.d.style.top=it.y+'px';
       if(it.y>H-40){it.done=true;it.d.remove();if(it.L.bug){missed.push(it.L);lose('A bug escaped! 🐛')}else{score+=fast?2:1;if(fast)toast(stage,'+2 ⏩','#a5f3fc');hud()}if(!run)return;resolved();if(!run)return}}
     items=items.filter(it=>!it.done||it.d.isConnected)}
-  function play(){const nb=Math.round(L.lines*.4)+rnd(-1,0);deck=shuffle(Array.from({length:L.lines},(_,i)=>i<nb));lane.innerHTML='';items=[];done=0;spawned=0;spawnT=.5;run=true;hud();stop&&stop();stop=loop(tick)}
+  function play(){deck=bugDeck(L.lines);used=new Set();lane.innerHTML='';items=[];done=0;spawned=0;spawnT=.5;run=true;hud();stop&&stop();stop=loop(tick)}
   function intro(){L=bugLevel(level);hud();
     overlay(stage,`<div class="emo">${level===1?'🐞':'⚡'}</div><h2>Level ${level}</h2><p><b>${L.name}</b></p><p>Tap the <b>wrong</b> lines. Leave the right ones.</p><div class="tip"><span class="tipf"><i></i><i></i><em>👆</em></span><span>Too slow? <b>Hold the background</b><br>to go faster <span class="tipgo">⏩⏩</span> and win bonus points!</span></div>`,'Go!',play)}
   function levelUp(){run=false;setFast(false);stop&&stop();const bonus=lives<3;if(bonus)lives++;score+=20*level;hud();
