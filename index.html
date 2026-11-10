@@ -160,6 +160,29 @@ footer{text-align:center;font-size:.8rem;color:var(--mute);padding:10px 16px 30p
 .pz .cuts button.on{background:#ea580c;color:#fff;border-color:#ea580c}
 .pz .serve{background:#16a34a;box-shadow:0 3px 0 #166534}
 
+.bpstage{background:linear-gradient(170deg,#0c4a6e,#1e1b4b)}
+.bprule{font-size:.72rem;opacity:.8;font-weight:600}
+.bptimer{height:6px;background:rgba(255,255,255,.12)}
+.bptimer i{display:block;height:100%;width:100%;background:#38bdf8}
+.bptimer i.hot{background:#ef4444}
+.blane{position:relative;height:444px;padding:6px 8px;display:flex;flex-direction:column;gap:8px;overflow:hidden}
+.blane::after{content:'';position:absolute;left:0;right:0;bottom:0;height:5px;background:#ef4444;opacity:.7}
+.brow{flex:0 0 64px;display:flex;align-items:center;justify-content:center;gap:5px;background:rgba(255,255,255,.1);border-radius:16px;padding:0 6px;font-weight:700;font-size:1.25rem;white-space:nowrap;touch-action:manipulation}
+.brow.in{animation:bdrop .35s ease-out}
+.brow.danger{background:rgba(239,68,68,.3)}
+.brow.clear{background:rgba(34,197,94,.35);animation:bclear .45s forwards}
+.bnum.new{display:inline-block;color:#fde047;animation:bnew .35s}
+.bpar{opacity:.85;font-size:1.4rem}
+.bop{width:42px;height:42px;flex:0 0 42px;border-radius:50%;border:0;font:inherit;font-size:1.6rem;font-weight:800;color:#fff;cursor:pointer;padding:0;line-height:1;box-shadow:inset -4px -5px 8px rgba(0,0,0,.22),inset 4px 4px 7px rgba(255,255,255,.45);transition:transform .1s}
+.bop:active{transform:scale(.85)}
+.bop.pw{width:30px;height:30px;flex-basis:30px;font-size:1.05rem;align-self:flex-start;margin:6px 0 0 -3px}
+.bop.c0{background:#ec4899}.bop.c1{background:#f59e0b}.bop.c2{background:#10b981}.bop.c3{background:#3b82f6}.bop.c4{background:#a855f7}
+.bop.bad{background:#ef4444;animation:shake .3s}
+@keyframes bdrop{from{transform:translateY(-70px);opacity:0}to{transform:none;opacity:1}}
+@keyframes bclear{60%{transform:scale(1.06);opacity:1}to{transform:scale(.6);opacity:0}}
+@keyframes bnew{from{transform:scale(1.7)}to{transform:scale(1)}}
+@media(max-width:420px){.brow{font-size:1.05rem;gap:3px}.bop{width:34px;height:34px;flex-basis:34px;font-size:1.1rem}.bop.pw{width:26px;height:26px;flex-basis:26px}}
+
 :root{--teal:#6d28d9;--teal2:#8b5cf6;--tealbg:#ede9fe;--hd1:#4c1d95;--hd2:#7c3aed}</style>
 </head><body>
 <header><div class="wrap"><h1>S1 Maths<span class="by">Oreste Campagner · Tallinn European School</span></h1>
@@ -555,8 +578,75 @@ function snakes(root,key){
   return()=>{over=true;timers.forEach(t=>{clearTimeout(t);clearInterval(t)})};
 }
 
+/* ================= BIDMAS BUBBLE POP ================= */
+let bpId=0;
+const bpN=()=>({v:rnd(2,9)}),bpS=()=>({v:rnd(2,5)}),bpPM=()=>pick(['+','−']);
+const bpG=(...a)=>({items:a.map(x=>typeof x==='string'?{o:x,id:++bpId}:x)});
+const bpP=(x,p=2)=>{x.pow=p;x.pid=++bpId;return x};
+const bpD=()=>{const b=rnd(2,6);return[{v:b*rnd(2,6)},'÷',{v:b}]};
+const BP_SHAPES={
+ 1:[()=>bpG(bpN(),bpPM(),bpN(),'×',bpN()),()=>bpG(bpN(),'×',bpN(),bpPM(),bpN()),()=>bpG(bpN(),bpPM(),bpN(),'×',bpN(),bpPM(),bpN())],
+ 2:[()=>bpG(bpN(),bpPM(),...bpD()),()=>bpG(...bpD(),'×',bpN()),()=>bpG(bpN(),'−',bpN(),'+',bpN()),()=>bpG(bpN(),'×',bpN(),bpPM(),...bpD()),()=>bpG({v:rnd(12,20)},'−',bpN(),'−',bpS()),()=>bpG(bpN(),'×',bpS(),'÷',{v:pick([1,2])},'+',bpN())],
+ 3:[()=>bpG(bpG(bpN(),bpPM(),bpN()),'×',bpN()),()=>bpG(bpN(),'×',bpG(bpN(),bpPM(),bpN())),()=>bpG(bpN(),bpPM(),bpN(),'×',bpG(bpN(),bpPM(),bpN())),()=>bpG(bpG(bpN(),bpPM(),bpN()),'×',bpG(bpN(),bpPM(),bpN())),()=>bpG({v:rnd(15,25)},'−',bpG(bpN(),'+',bpN()),'+',bpN()),()=>bpG(bpG(bpN(),'+',bpN(),'×',bpS()),'−',bpN())],
+ 4:[()=>bpG(bpN(),'+',bpP(bpS()),'×',bpS()),()=>bpG(bpP(bpS()),'−',bpN(),'×',bpS()),()=>bpG(bpN(),'×',bpP(bpS()),bpPM(),bpN()),()=>bpG(bpP(bpN()),bpPM(),bpP(bpS())),()=>bpG(bpN(),bpPM(),bpP(bpS()))],
+ 5:[()=>bpG(bpP(bpG(bpN(),bpPM(),bpN())),bpPM(),bpN()),()=>bpG(bpN(),'+',bpS(),'×',bpP(bpG(bpS(),bpPM(),bpS()))),()=>bpG(bpG(bpP(bpS()),bpPM(),bpN()),'×',bpS()),()=>bpG({v:rnd(30,50)},'−',bpG(bpN(),'+',bpP(bpS()))),()=>bpG(bpS(),'×',bpP(bpG(bpN(),'−',bpN())),'−',bpN())],
+ 6:[()=>bpG(bpS(),'×',bpG(bpN(),bpPM(),bpG(bpN(),bpPM(),bpN())),bpPM(),bpN()),()=>bpG(bpP(bpG(bpN(),'−',bpS(),'×',bpS())),'+',bpN()),()=>bpG(bpG(bpN(),'+',bpN()),'×',bpG(bpP(bpS()),'−',bpN()),bpPM(),bpN()),()=>bpG(bpN(),'+',...bpD(),'×',bpP(bpS()),'−',bpN())]};
+const bpCalc=(a,o,b)=>o==='+'?a+b:o==='−'?a-b:o==='×'?a*b:a/b;
+const bpHas=(g,id)=>g.items.some(x=>x.id===id||x.pid===id||(x.items&&bpHas(x,id)));
+/* which bubbles may be popped now: brackets, then powers, then × ÷, then + − (left to right) */
+function bpValid(g){const subs=g.items.filter(x=>x.items);if(subs.length)return subs.flatMap(bpValid);
+  const pw=g.items.filter(x=>x.pow);if(pw.length)return pw.map(x=>x.pid);
+  const md=g.items.filter((x,i)=>'×÷'.includes(x.o||'#')&&!(i>2&&'×÷'.includes(g.items[i-2].o)));if(md.length)return md.map(x=>x.id);
+  return g.items[1]?[g.items[1].id]:[]}
+function bpHint(g,id){const subs=g.items.filter(x=>x.items);if(subs.length){const s=subs.find(x=>bpHas(x,id));return s?bpHint(s,id):'Brackets first!'}
+  if(g.items.some(x=>x.pow))return'Powers before × ÷ + −!';
+  const t=g.items.find(x=>x.id===id);if(g.items.some(x=>'×÷'.includes(x.o||'#')))return t&&'×÷'.includes(t.o)?'Same level: left to right!':'× and ÷ before + and −!';
+  return'Same level: left to right!'}
+function bpApply(g,id){for(let i=0;i<g.items.length;i++){const x=g.items[i];
+    if(x.pid===id&&!x.items){x.v=x.v**x.pow;delete x.pow;delete x.pid;x.fresh=1;return true}
+    if(x.id===id){const r={v:bpCalc(g.items[i-1].v,x.o,g.items[i+1].v),fresh:1};g.items.splice(i-1,3,r);return true}
+    if(x.items&&bpApply(x,id)){if(x.items.length===1&&!x.items[0].pow&&!x.items[0].items){const n={v:x.items[0].v,fresh:1};if(x.pow){n.pow=x.pow;n.pid=x.pid}g.items[i]=n}return true}}
+  return false}
+const bpDone=g=>g.items.length===1&&!g.items[0].pow&&!g.items[0].items;
+function bpText(g){return g.items.map((x,i)=>{if(x.o)return` ${x.o} `;let s=x.items?`(${bpText(x)})`:(x.v<0&&(i>0||x.pow)?`(${fmt(x.v)})`:fmt(x.v));return s+(x.pow?(x.pow===2?'²':'³'):'')}).join('')}
+function bpOk(g){const c=JSON.parse(JSON.stringify(g));const chk=h=>h.items.every(x=>x.o||(x.items?chk(x):Number.isInteger(x.v)&&Math.abs(x.v)<=150));
+  for(let n=0;n<20;n++){if(!chk(c))return false;if(bpDone(c))return true;bpApply(c,bpValid(c)[0])}return false}
+function bpMake(level){const sh=level<=5?BP_SHAPES[level]:[...BP_SHAPES[3],...BP_SHAPES[5],...BP_SHAPES[6],...BP_SHAPES[6]];for(;;){const g=pick(sh)();if(bpOk(g))return g}}
+const BP_LEVELS=[{name:'× before + and −',gap:10,rows:6},{name:'× and ÷, left to right',gap:9.5,rows:6},{name:'Brackets',gap:9,rows:8},{name:'Powers',gap:9,rows:8},{name:'Brackets and powers',gap:8.5,rows:8}];
+const bpLevel=n=>n<=5?BP_LEVELS[n-1]:{name:'Speed run',gap:Math.max(4,8.5-(n-5)*.7),rows:10};
+function bubblePop(root,key){
+  const MAX=6;
+  root.innerHTML=`<div class="stage bpstage"><div class="hud"><span class="lvl lv"></span><span class="bprule">( ) → x² → × ÷ → + −</span><span class="pts"></span></div><div class="bptimer"><i></i></div><div class="blane"></div></div>`;
+  const stage=$('.stage',root),lane=$('.blane',root),bar=$('.bptimer i',root);let rows,score,level,L,cleared,total,T,stop=null,run=false;
+  const hud=()=>{$('.pts',root).textContent=`⭐ ${score}`;$('.lv',root).textContent=`Level ${level} · ${Math.min(cleared,L.rows)}/${L.rows}`};
+  const opnd=(x,i)=>{const cls=x.fresh?' class="bnum new"':' class="bnum"';delete x.fresh;
+    const core=x.items?`<span class="bpar">(</span>${html(x)}<span class="bpar">)</span>`:`<span${cls}>${x.v<0&&(i>0||x.pow)?`(${fmt(x.v)})`:fmt(x.v)}</span>`;
+    return core+(x.pow?`<button type="button" class="bop pw c${x.pid%5}" data-id="${x.pid}">${x.pow===2?'²':'³'}</button>`:'')};
+  const html=g=>g.items.map((x,i)=>x.o?`<button type="button" class="bop c${x.id%5}" data-id="${x.id}">${x.o}</button>`:opnd(x,i)).join('');
+  const danger=()=>rows.forEach((r,i)=>r.el.classList.toggle('danger',rows.length-i<=rows.length-MAX+2&&rows.length>=MAX-1));
+  function addRow(){if(rows.length>=MAX)return end();const g=bpMake(level),el=document.createElement('div');el.className='brow in';el.innerHTML=html(g);lane.prepend(el);const r={g,el};rows.unshift(r);
+    el.onpointerdown=e=>{const b=e.target.closest('.bop');if(!b||!run||r.gone)return;e.preventDefault();const id=+b.dataset.id;
+      if(bpValid(g).includes(id)){bpApply(g,id);score+=5;el.classList.remove('in');
+        if(bpDone(g)){r.gone=true;score+=10*level;cleared++;total++;el.innerHTML=`<span class="bnum new">= ${fmt(g.items[0].v)} ✓</span>`;el.classList.add('clear');later(()=>{el.remove();rows=rows.filter(x=>x!==r);danger()},450);
+          if(cleared>=L.rows){hud();return later(levelUp,500)}}
+        else el.innerHTML=html(g);hud()}
+      else{b.classList.add('bad');later(()=>b.classList.remove('bad'),400);toast(stage,bpHint(g,id),'#fecaca');T-=L.gap*.5}};
+    danger()}
+  function tick(dt){if(!run)return;if(!rows.some(r=>!r.gone))T=Math.min(T,.4);T-=dt;if(T<=0){addRow();T=L.gap}bar.style.width=Math.max(0,100*T/L.gap)+'%';bar.classList.toggle('hot',rows.length>=MAX-1)}
+  function play(){lane.innerHTML='';rows=[];cleared=0;run=true;addRow();addRow();T=L.gap;hud();stop&&stop();stop=loop(tick)}
+  function intro(){L=bpLevel(level);cleared=0;hud();overlay(stage,`<div class="emo">🫧</div><h2>Level ${level}</h2><p><b>${L.name}</b></p><p>Pop the operation that comes <b>first</b>.</p>`,'Go!',play)}
+  function levelUp(){if(!run)return;run=false;stop&&stop();score+=20*level;hud();overlay(stage,`<div class="emo">🏆</div><h2>Level ${level} done!</h2><p>+${20*level} bonus points</p>`,'Next level',()=>{level++;intro()})}
+  function start(){score=0;level=1;total=0;intro()}
+  function end(){run=false;stop&&stop();const b=GK.best(key,score);
+    overlay(stage,`<div class="emo">🫧</div><h2>Game over</h2><p>You reached <b>level ${level}</b> and solved <b>${total}</b> lines.</p><p>Score <b>${score}</b> · Best ${b}</p><p>Remember: brackets, powers, × ÷, then + −.</p>`,'Play again',start)}
+  score=0;level=1;cleared=0;L=bpLevel(1);rows=[];hud();
+  overlay(stage,`<div class="emo">🫧</div><h2>BIDMAS Bubble Pop</h2><p>Pop the bubbles in the right order.</p><p>Don't let the lines fill the screen!</p>`,'Start popping',start);
+  return()=>{run=false;stop&&stop()};
+}
+
 gameHub($('#gpick'),$('#gpanel'),{
   bs:{title:'Coordinate Battleships',emo:'⚓',desc:'Sink the robot’s fleet with (x, y) torpedoes.',cls:'g-blue',run:battleships},
   bug:{title:"Johnny's Bug Hunt",emo:'🐞',desc:'Squash the wrong lines before they escape!',cls:'g-purple',run:bugHunt},
+  bp:{title:'BIDMAS Bubble Pop',emo:'🫧',desc:'Pop the operation that comes first.',cls:'g-orange',run:bubblePop},
   sl:{title:'Snakes and Ladders',emo:'🐍',desc:'Race the robot: answer right to climb.',cls:'g-green',run:snakes}});
 </script></body></html>
