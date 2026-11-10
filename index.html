@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>S1 Maths</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>:root{--teal:#0f766e;--teal2:#14b8a6;--tealbg:#e6f6f4;--amber:#b45309;--amber2:#f59e0b;--amberbg:#fef3c7;--ink:#1f2937;--mute:#6b7280;--line:#e5e7eb;--bg:#f5f8f8;--good:#15803d;--goodbg:#dcfce7;--bad:#b91c1c;--badbg:#fee2e2}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;font-family:Lexend,system-ui,-apple-system,sans-serif;color:var(--ink);background:var(--bg);font-size:16px;line-height:1.5}
+.wrap{max-width:860px;margin:0 auto}
+header{background:var(--teal);color:#fff;padding:20px 16px 0}
+header h1{margin:0;font-size:1.65rem;letter-spacing:-.01em}
+header p{margin:.15rem 0 .9rem;opacity:.92;font-size:.95rem}
+nav{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
+nav a{color:#fff;text-decoration:none;padding:10px 14px;border-radius:12px 12px 0 0;white-space:nowrap;opacity:.88;font-weight:500}
+nav a.on{background:var(--bg);color:var(--teal);opacity:1;font-weight:600}
+main{padding:16px}
+.banner{background:var(--amberbg);border-left:5px solid var(--amber2);padding:10px 14px;border-radius:10px;margin-bottom:16px;font-size:.95rem}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin-bottom:16px}
+h2{color:var(--teal);font-size:1.25rem;margin:.1rem 0 .5rem}
+h3{font-size:.8rem;margin:1rem 0 .3rem;color:var(--mute);text-transform:uppercase;letter-spacing:.07em}
+p{margin:.4rem 0}
+.small{font-size:.88rem;color:var(--mute)}
+.sheet{display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--line);flex-wrap:wrap}
+.sheet:first-of-type{border-top:0}
+.sheet .ico{width:34px;height:34px;border-radius:9px;background:var(--tealbg);color:var(--teal);display:grid;place-items:center;font-weight:700;font-size:.75rem;flex:none}
+.sheet .name{flex:1;min-width:160px}
+.sheet .name b{display:block;font-weight:600}
+.sheet .name span{font-size:.85rem;color:var(--mute)}
+.tag{display:inline-block;font-size:.72rem;font-weight:600;padding:2px 8px;border-radius:99px;background:var(--amberbg);color:var(--amber);vertical-align:middle;margin-left:4px}
+.btn{font:inherit;font-weight:600;border:0;border-radius:10px;padding:9px 16px;background:var(--teal);color:#fff;cursor:pointer;text-decoration:none;display:inline-block;font-size:.95rem}
+.btn:hover{filter:brightness(1.08)}
+.btn.ghost{background:#fff;color:var(--teal);border:1.5px solid var(--teal)}
+.btn.amber{background:#fff;color:var(--amber);border:1.5px solid var(--amber2)}
+.btn:disabled{opacity:.5;cursor:default}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:.3rem 0 1rem}
+.chip{font:inherit;font-size:.88rem;border:1.5px solid var(--line);background:#fff;border-radius:99px;padding:6px 12px;cursor:pointer;color:var(--ink)}
+.chip.on{background:var(--teal);border-color:var(--teal);color:#fff}
+.score{display:flex;justify-content:space-between;font-size:.88rem;color:var(--mute);margin-bottom:.4rem;min-height:1.3em}
+.q{font-size:1.1rem;margin:.3rem 0 .8rem}
+.expr{font-size:1.6rem;font-weight:600;letter-spacing:.02em;margin:.4rem 0;color:var(--ink)}
+form.ans{display:flex;gap:8px;flex-wrap:wrap}
+form.ans input{font:inherit;font-size:1.15rem;padding:9px 12px;border:1.5px solid #cbd5e1;border-radius:10px;width:200px;max-width:100%}
+form.ans input:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px var(--tealbg)}
+.fb{margin:.8rem 0;padding:0;border-radius:10px}
+.fb.good,.fb.bad,.fb.warn,.fb.info{padding:10px 14px}
+.fb.good{background:var(--goodbg);color:var(--good)}
+.fb.bad{background:var(--badbg);color:var(--bad)}
+.fb.warn{background:var(--amberbg);color:var(--amber)}
+.fb.info{background:var(--tealbg);color:var(--ink)}
+.solbox{color:var(--ink);margin-top:6px}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:.4rem}
+.steps div{font-size:1.1rem;margin:2px 0}
+.choices{display:grid;gap:8px;margin:.4rem 0}
+.choice{font:inherit;text-align:left;padding:11px 14px;border:1.5px solid var(--line);border-radius:12px;background:#fff;cursor:pointer;font-size:1rem;color:var(--ink)}
+.choice:hover:not(:disabled){border-color:var(--teal)}
+.choice.right{background:var(--goodbg);border-color:var(--good)}
+.choice.wrong{background:var(--badbg);border-color:var(--bad)}
+.choice:disabled{cursor:default}
+.qhead{font-size:.88rem;color:var(--mute);margin-bottom:.3rem}
+.result{text-align:center}
+.result .big{font-size:3rem;font-weight:700;color:var(--teal)}
+table.tt{margin:.6rem auto;border-collapse:collapse;font-size:.95rem}
+table.tt td{padding:5px 12px;border-bottom:1px solid var(--line);text-align:left}
+table.tt td.r{text-align:right;font-weight:600}
+.johnny{background:#fffbeb;border:1.5px dashed var(--amber2);border-radius:12px;padding:12px 16px;font-size:1.35rem;font-weight:600;margin:.5rem 0}
+svg{max-width:100%;height:auto;display:block}
+.gridbox{max-width:380px;margin:.4rem 0}
+.gridbox svg{touch-action:manipulation;cursor:crosshair}
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1.1;margin:0 3px;font-weight:600}
+.frac span:first-child{border-bottom:2px solid currentColor;padding:0 3px}
+.frac span:last-child{padding:0 3px}
+.kept{color:var(--teal);font-weight:700}
+.dec{background:var(--amberbg);color:var(--amber);font-weight:700;border-radius:4px;padding:0 2px}
+.lead{color:#9ca3af}
+.num{font-size:1.4rem;letter-spacing:.03em}
+footer{text-align:center;font-size:.8rem;color:var(--mute);padding:10px 16px 30px}
+[hidden]{display:none!important}
+.gpick{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.gcard{border:0;border-radius:18px;padding:16px;text-align:left;cursor:pointer;color:#fff;font:inherit;position:relative;overflow:hidden;min-height:132px;box-shadow:0 4px 0 rgba(0,0,0,.18);transition:transform .12s}
+.gcard:hover{transform:translateY(-2px)}
+.gcard:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(0,0,0,.18)}
+.gcard .emo{font-size:2.3rem;line-height:1}
+.gcard b{display:block;font-size:1.15rem;margin:.3rem 0 .1rem}
+.gcard span{font-size:.85rem;opacity:.92}
+.gcard .best{position:absolute;top:12px;right:14px;font-size:.75rem;background:rgba(255,255,255,.22);padding:2px 8px;border-radius:99px}
+.g-blue{background:linear-gradient(135deg,#1d4ed8,#0ea5e9)}
+.g-green{background:linear-gradient(135deg,#15803d,#65a30d)}
+.g-purple{background:linear-gradient(135deg,#7c3aed,#db2777)}
+.g-orange{background:linear-gradient(135deg,#ea580c,#f59e0b)}
+.g-night{background:linear-gradient(135deg,#1e1b4b,#4338ca)}
+.g-red{background:linear-gradient(135deg,#b91c1c,#f97316)}
+.stage{position:relative;border-radius:18px;overflow:hidden;background:#0f172a;color:#fff;min-height:420px;user-select:none;-webkit-user-select:none}
+.stage.light{background:#fefce8;color:var(--ink)}
+.hud{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;font-weight:700;gap:8px;flex-wrap:wrap;position:relative;z-index:3}
+.hud .lvl{font-size:.8rem;background:rgba(255,255,255,.15);padding:3px 10px;border-radius:99px}
+.stage.light .hud .lvl{background:rgba(0,0,0,.07)}
+.ovl{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;background:rgba(15,23,42,.88);z-index:10;gap:10px}
+.stage.light .ovl{background:rgba(254,252,232,.96)}
+.ovl h2{color:inherit;font-size:1.6rem;margin:0}
+.ovl .emo{font-size:3.2rem}
+.ovl p{max-width:420px;margin:0;opacity:.95}
+.ovl .btn{font-size:1.1rem;padding:12px 26px;background:#f59e0b;color:#1f2937;box-shadow:0 4px 0 #b45309}
+.ovl .btn:active{transform:translateY(3px);box-shadow:0 1px 0 #b45309}
+.ovl ul{text-align:left;font-size:.9rem;max-width:420px;margin:.2rem 0;padding-left:1.2rem}
+.backbtn{font:inherit;background:none;border:0;color:var(--teal);font-weight:600;cursor:pointer;padding:4px 0;margin-bottom:8px}
+.toast{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);font-size:1.5rem;font-weight:800;pointer-events:none;z-index:8;text-shadow:0 2px 6px rgba(0,0,0,.4);animation:pop .9s ease-out forwards;white-space:nowrap}
+@keyframes pop{0%{opacity:0;transform:translate(-50%,-30%) scale(.6)}20%{opacity:1;transform:translate(-50%,-50%) scale(1.1)}100%{opacity:0;transform:translate(-50%,-110%) scale(1)}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.shake{animation:shake .3s}
+/* bug hunt */
+.lane{position:relative;height:440px;overflow:hidden;background:repeating-linear-gradient(0deg,#1e293b 0 38px,#223047 38px 39px)}
+.lane::after{content:'';position:absolute;left:0;right:0;bottom:0;height:6px;background:#ef4444;opacity:.7}
+.bug{position:absolute;background:#fff;color:#1f2937;border-radius:12px;padding:8px 12px;font-weight:700;font-size:1.05rem;white-space:nowrap;cursor:pointer;box-shadow:0 3px 0 #94a3b8;touch-action:manipulation}
+.bug.squash{animation:squash .35s forwards;pointer-events:none}
+.bug.oops{background:#fecaca;pointer-events:none}
+@keyframes squash{to{transform:scale(1.4) rotate(12deg);opacity:0}}
+/* battleships */
+.bs{padding:0 12px 14px}
+.bs form{display:flex;gap:8px;margin:6px 0 8px;flex-wrap:wrap;align-items:center}
+.bs input{font:inherit;font-size:1.2rem;padding:8px 12px;border-radius:10px;border:2px solid #38bdf8;width:150px;background:#0b1220;color:#fff}
+.bs .fire{background:#ef4444;color:#fff;box-shadow:0 3px 0 #991b1b}
+.bs .log{min-height:2.8em;font-size:.95rem}
+.bs .boards{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-start}
+.bs .b1{flex:1 1 300px;max-width:400px}
+.bs .b2{flex:0 1 210px}
+.bs .cap{font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;opacity:.75;margin:2px 0}
+.fleet{font-size:.8rem;opacity:.85;margin-top:4px}
+/* snakes */
+.sl{padding:0 12px 14px}
+.sl .qbox{background:#fff;color:var(--ink);border-radius:14px;padding:12px;margin-top:10px}
+.die{display:inline-grid;place-items:center;width:54px;height:54px;border-radius:12px;background:#fff;color:#1f2937;font-size:2rem;font-weight:800;box-shadow:0 3px 0 #94a3b8}
+.sl .ctrl2{display:flex;gap:12px;align-items:center;margin:8px 0;flex-wrap:wrap}
+/* fraction fill */
+.ff .sky{position:relative;height:120px;margin:0 12px;border-bottom:2px dashed rgba(255,255,255,.25)}
+.ff .piece{position:absolute;left:50%;transform:translateX(-50%);background:#f59e0b;color:#1f2937;border-radius:10px;padding:6px 16px;font-weight:800;font-size:1.4rem;box-shadow:0 3px 0 #b45309}
+.ff .bars{display:flex;justify-content:center;gap:16px;padding:14px 12px 18px}
+.ff .bar{width:84px;height:260px;border:3px solid #e2e8f0;border-top:0;border-radius:0 0 14px 14px;position:relative;cursor:pointer;display:flex;flex-direction:column-reverse;overflow:hidden;background:rgba(255,255,255,.04);touch-action:manipulation}
+.ff .bar:hover{background:rgba(255,255,255,.1)}
+.ff .seg{border-top:2px solid #0f172a;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.95rem;color:#0f172a;flex:none}
+.ff .tot{text-align:center;font-weight:700;margin-top:4px;min-height:1.3em}
+.ff .col{display:flex;flex-direction:column;align-items:center}
+.ff .bar.full{animation:glow .5s}
+@keyframes glow{50%{box-shadow:0 0 30px #facc15;border-color:#facc15}}
+.ff .timer{height:6px;background:#f59e0b;margin:0 12px;border-radius:3px;transition:width .1s linear}
+/* pizza */
+.pz{padding:0 12px 14px}
+.pz .cust{display:flex;gap:12px;align-items:center;background:#fff;border-radius:16px;padding:10px 14px;margin:4px 0 8px}
+.pz .cust .face{font-size:2.6rem}
+.pz .bubble{font-weight:600;font-size:1.05rem}
+.pz .pat{height:8px;border-radius:4px;background:#e5e7eb;overflow:hidden;margin-top:6px}
+.pz .pat i{display:block;height:100%;background:#22c55e;transition:width .2s linear}
+.pz .pizzas{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.pz .pizzas svg{width:170px;max-width:46%;cursor:pointer}
+.pz .cuts{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:6px 0}
+.pz .cuts button{font:inherit;border:1.5px solid #d6d3d1;background:#fff;border-radius:99px;padding:4px 10px;cursor:pointer}
+.pz .cuts button.on{background:#ea580c;color:#fff;border-color:#ea580c}
+.pz .serve{background:#16a34a;box-shadow:0 3px 0 #166534}
+</style>
+</head><body>
+<header><div class="wrap"><h1>S1 Maths</h1><p>Integers · BIDMAS · coordinates</p>
+<nav><a href="#sheets">Sheets</a><a href="#practice">Practice</a><a href="#games">Games</a><a href="#test">Test prep</a></nav></div></header>
+<main class="wrap">
+
+<section id="sheets" class="view">
+  <div class="banner"><b>Coming up, Week 11:</b> plotting points, revision, and a test on <b>Friday 13 November</b>. Get ready with the <a href="#test">Test prep</a> tab.</div>
+  <div class="card"><h2>Worksheets</h2><p class="small">Summary sheets to print or look back at. Sheets marked <span class="tag">S1B</span> were used in S1B only; they are good practice for everyone.</p>
+    <div id="w10"></div>
+  </div>
+</section>
+
+<section id="practice" class="view" hidden>
+  <div class="card"><h2>Practice</h2><p class="small">Pick a topic. Every question is new. Write your working in your notebook, one step per line, then type your answer. Coordinates: type them like (3, −2).</p>
+    <div class="chips" id="pchips"></div><div id="ppanel"></div></div>
+</section>
+
+<section id="games" class="view" hidden>
+  <div class="card"><h2>Games</h2><p class="small">Pick a game. Keep your notebook ready: the questions need working!</p><div id="gpick"></div><div id="gpanel" hidden></div></div>
+</section>
+
+<section id="test" class="view" hidden>
+  <div class="card"><h2>Ready check</h2><div id="quiz"></div></div>
+</section>
+</main>
+<footer>S1 Maths · No login needed. Nothing you type is saved or sent anywhere.</footer>
+<script>const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const rnd=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
+const rndNZ=(a,b)=>{let x;do{x=rnd(a,b)}while(x===0);return x};
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const MINUS='−';
+const fmt=n=>n<0?MINUS+Math.abs(n):String(n);
+const br=n=>n<0?'('+fmt(n)+')':String(n);
+const clean=s=>String(s).trim().replace(/[−–—]/g,'-').replace(/,/g,'.').replace(/\s+/g,'');
+const parseNum=s=>{s=clean(s);return /^[-+]?\d+(\.\d+)?$/.test(s)?Number(s):null};
+const gcd=(a,b)=>{a=Math.abs(a);b=Math.abs(b);while(b){[a,b]=[b,a%b]}return a};
+const lcm=(a,b)=>a/gcd(a,b)*b;
+let userActed=false;
+
+function numCheck(ans,hint){return v=>{const n=parseNum(v);if(n===null)return{bad:true,msg:'Type a number, for example −12.'};if(n===ans)return{ok:true};return{msg:(hint&&hint(n))||''}}}
+function signHint(ans){return n=>(n===-ans&&ans!==0)?'Check your sign.':''}
+
+function tabs(){const links=$$('nav a');const show=()=>{let h=location.hash.slice(1);if(!links.some(a=>a.getAttribute('href')==='#'+h))h=links[0].getAttribute('href').slice(1);$$('.view').forEach(v=>v.hidden=v.id!==h);links.forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+h))};addEventListener('hashchange',()=>{show();scrollTo(0,0)});show()}
+
+function scoreBar(el){let right=0,total=0,streak=0;const sc=$('.sc',el),st=$('.st',el);const upd=()=>{sc.textContent=`Score: ${right} / ${total}`;st.textContent=streak>=3?`🔥 ${streak} in a row`:''};upd();return{add(ok){total++;if(ok){right++;streak++}else streak=0;upd()}}}
+
+/* typed-answer practice */
+function practice(el,gen){
+  let cur,first;
+  el.innerHTML=`<div class="score"><span class="sc"></span><span class="st"></span></div><div class="q"></div>
+  <form class="ans"><input autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Your answer"><button class="btn">Check</button></form>
+  <div class="fb" aria-live="polite"></div>
+  <div class="row"><button type="button" class="btn ghost sol">Show solution</button><button type="button" class="btn next">Next question →</button></div>`;
+  const q=$('.q',el),inp=$('input',el),fb=$('.fb',el),sb=scoreBar(el);
+  const say=(c,h)=>{fb.className='fb '+c;fb.innerHTML=h};
+  function next(){cur=gen();q.innerHTML=cur.q;inp.value='';inp.placeholder=cur.ph||'Your answer';fb.className='fb';fb.innerHTML='';first=true;cur.mount&&cur.mount(q);if(userActed)inp.focus({preventScroll:true})}
+  $('form',el).onsubmit=e=>{e.preventDefault();userActed=true;if(!inp.value.trim())return;const r=cur.check(inp.value);
+    if(r.bad||r.near){say('warn',r.msg);return}
+    if(first){sb.add(!!r.ok);first=false}
+    r.ok?say('good','✓ Correct!'+(cur.after?' '+cur.after:'')):say('bad','✗ Not yet. '+(r.msg||'Try again, or show the solution.'))};
+  $('.sol',el).onclick=()=>{if(first){sb.add(false);first=false}say('info',cur.sol)};
+  $('.next',el).onclick=()=>{userActed=true;next()};
+  next();
+}
+
+/* multiple-choice practice */
+function mcq(el,gen){
+  let cur;
+  el.innerHTML=`<div class="score"><span class="sc"></span><span class="st"></span></div><div class="q"></div><div class="choices"></div><div class="fb" aria-live="polite"></div><div class="row"><button type="button" class="btn next">Next →</button></div>`;
+  const q=$('.q',el),ch=$('.choices',el),fb=$('.fb',el),sb=scoreBar(el);
+  function next(){cur=gen();q.innerHTML=cur.q;ch.innerHTML='';fb.className='fb';fb.innerHTML='';
+    cur.choices.forEach((c,i)=>{const b=document.createElement('button');b.type='button';b.className='choice';b.innerHTML=c;
+      b.onclick=()=>{const ok=i===cur.ans;sb.add(ok);$$('.choice',ch).forEach((x,j)=>{x.disabled=true;if(j===cur.ans)x.classList.add('right');else if(j===i)x.classList.add('wrong')});
+        fb.className='fb '+(ok?'good':'bad');fb.innerHTML=(ok?'✓ Correct! ':'✗ Not quite. ')+'<div class="solbox">'+cur.sol+'</div>'};ch.appendChild(b)})}
+  $('.next',el).onclick=next;next();
+}
+
+/* run either kind */
+function run(el,gen){const probe=gen();let used=false;const g=()=>{if(!used){used=true;return probe}return gen()};(probe.choices?mcq:practice)(el,g)}
+
+function chipPanel(chipsEl,panelEl,map){const keys=Object.keys(map);chipsEl.innerHTML=keys.map((k,i)=>`<button type="button" class="chip${i?'':' on'}" data-k="${k}">${map[k].label}</button>`).join('');
+  const go=k=>{$$('.chip',chipsEl).forEach(c=>c.classList.toggle('on',c.dataset.k===k));map[k].fn?map[k].fn(panelEl):run(panelEl,map[k].gen)};
+  chipsEl.onclick=e=>{const c=e.target.closest('.chip');if(c){userActed=true;go(c.dataset.k)}};go(keys[0])}
+
+/* test-prep quiz: one try per question, summary by topic */
+function quiz(el,makeList,intro){
+  const home=()=>{el.innerHTML=`<p>${intro}</p><button type="button" class="btn">Start</button>`;$('button',el).onclick=start};
+  function start(){const items=makeList().map(g=>g());let i=0;const res=[];
+    const show=()=>{if(i>=items.length)return end();const it=items[i];
+      el.innerHTML=`<div class="qhead">Question ${i+1} of ${items.length} <span class="tag">${it.topic}</span></div><div class="q">${it.q}</div>`+
+        (it.choices?'<div class="choices"></div>':`<form class="ans"><input autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="${it.ph||'Your answer'}" aria-label="Your answer"><button class="btn">Check</button></form>`)+
+        '<div class="fb" aria-live="polite"></div><div class="row"></div>';
+      it.mount&&it.mount($('.q',el));
+      const fb=$('.fb',el),row=$('.row',el);
+      const finish=ok=>{res.push({t:it.topic,ok});fb.className='fb '+(ok?'good':'bad');fb.innerHTML=(ok?'✓ Correct!':'✗ Not quite.')+'<div class="solbox">'+it.sol+'</div>';
+        row.innerHTML=`<button type="button" class="btn next">${i+1<items.length?'Next question →':'See my results'}</button>`;$('.next',row).onclick=()=>{i++;show();el.scrollIntoView({block:'start'})}};
+      if(it.choices){const ch=$('.choices',el);it.choices.forEach((c,j)=>{const b=document.createElement('button');b.type='button';b.className='choice';b.innerHTML=c;
+        b.onclick=()=>{$$('.choice',ch).forEach((x,k)=>{x.disabled=true;if(k===it.ans)x.classList.add('right');else if(k===j)x.classList.add('wrong')});finish(j===it.ans)};ch.appendChild(b)})}
+      else{const inp=$('input',el);$('form',el).onsubmit=e=>{e.preventDefault();if(inp.disabled||!inp.value.trim())return;const r=it.check(inp.value);
+        if(r.bad||r.near){fb.className='fb warn';fb.innerHTML=r.msg;return}inp.disabled=true;$('form button',el).disabled=true;finish(!!r.ok)};if(i>0)inp.focus({preventScroll:true})}};
+    const end=()=>{const by={};res.forEach(r=>{by[r.t]=by[r.t]||[0,0];by[r.t][1]++;if(r.ok)by[r.t][0]++});
+      const score=res.filter(r=>r.ok).length,pct=score/res.length;
+      const rev=Object.entries(by).filter(([,v])=>v[0]<v[1]).map(([t])=>t);
+      const msg=pct>=.9?'Excellent — you are ready!':pct>=.7?'Good work. A little more practice on the topics below.':pct>=.5?'You are getting there. Practise the topics below, then try again.':'Keep going! Use the Practice tab on the topics below, then try a new set.';
+      el.innerHTML=`<div class="result"><div class="big">${score} / ${res.length}</div><p>${msg}</p><table class="tt">${Object.entries(by).map(([t,v])=>`<tr><td>${v[0]===v[1]?'✅':'🔁'} ${t}</td><td class="r">${v[0]} / ${v[1]}</td></tr>`).join('')}</table>`+
+        (rev.length?`<p><b>Revise first:</b> ${rev.join(', ')}</p>`:'<p>Nothing to revise from this round.</p>')+'<div class="row" style="justify-content:center"><button type="button" class="btn">Try a new set</button></div></div>';
+      $('.btn',el).onclick=start};
+    show()}
+  home();
+}
+</script>
+<script>
+const SHEETS={w10:[
+ ['S1_Zero-and-one_L38.pdf','Zero and one','Lesson 38 · why 0 and 1 are special, and why we cannot divide by 0','S1B']]};
+for(const w in SHEETS)$('#'+w).innerHTML=SHEETS[w].map(([id,t,s,tag])=>`<div class="sheet"><div class="ico">PDF</div><div class="name"><b>${t}${tag?` <span class="tag">${tag}</span>`:''}</b><span>${s}</span></div><a class="btn ghost" href="sheets/${id}" target="_blank" rel="noopener">Open</a></div>`).join('');
+
+/* ---------- BIDMAS ---------- */
+const T={
+1:[()=>{const a=rndNZ(-9,9),b=rnd(2,9),c=rndNZ(-6,6),p=b*c;return{e:`${fmt(a)} + ${b} × ${br(c)}`,s:[`${fmt(a)} + ${br(p)}`],v:a+p}},
+   ()=>{const a=rndNZ(-9,12),b=rnd(2,6),c=rndNZ(-6,6),p=b*c;return{e:`${fmt(a)} − ${b} × ${br(c)}`,s:[`${fmt(a)} − ${br(p)}`],v:a-p}},
+   ()=>{const a=rndNZ(-6,6),b=rnd(2,6),d=pick([2,3,4,5]),k=rndNZ(-5,5),c=d*k;return{e:`${fmt(a)} × ${b} − ${br(c)} ÷ ${d}`,s:[`${fmt(a*b)} − ${br(k)}`],v:a*b-k}},
+   ()=>{const d=pick([2,3,4,5,-2,-3,-4]),k=rndNZ(-6,6),a=d*k,c=rndNZ(-5,5);return{e:`${fmt(a)} ÷ ${br(d)} × ${br(c)}`,s:[`${fmt(k)} × ${br(c)}`],v:k*c,note:'÷ and × are on the same level: work left to right.'}},
+   ()=>{const a=rnd(-12,-1),b=rnd(1,12),c=rnd(1,12),o=pick(['+','−']);const m=a-b;return{e:`${fmt(a)} − ${b} ${o} ${c}`,s:[`${fmt(m)} ${o} ${c}`],v:o==='+'?m+c:m-c,note:'Circle the sign in front of the first number. + and − are on the same level: left to right.'}}],
+2:[()=>{const a=rndNZ(-8,8),b=rnd(1,9),c=rndNZ(-5,5);return{e:`(${fmt(a)} + ${b}) × ${br(c)}`,s:[`${fmt(a+b)} × ${br(c)}`],v:(a+b)*c}},
+   ()=>{const a=rnd(-10,10),b=rnd(1,9),c=rnd(1,12),d=rnd(2,5);return{e:`${fmt(a)} − (${b} − ${c}) × ${d}`,s:[`${fmt(a)} − ${br(b-c)} × ${d}`,`${fmt(a)} − ${br((b-c)*d)}`],v:a-(b-c)*d}},
+   ()=>{const c=pick([2,3,4,5]),k=rndNZ(-6,6),b=rnd(1,12),a=k*c+b;return{e:`(${fmt(a)} − ${b}) ÷ ${c}`,s:[`${fmt(k*c)} ÷ ${c}`],v:k}},
+   ()=>{const a=rnd(2,5),b=rndNZ(-7,7),c=rnd(1,8),d=rnd(1,10);return{e:`${a} × (${fmt(b)} + ${c}) − ${d}`,s:[`${a} × ${br(b+c)} − ${d}`,`${fmt(a*(b+c))} − ${d}`],v:a*(b+c)-d}}],
+3:[()=>{const a=rndNZ(-10,10),b=rnd(2,9);return{e:`${fmt(a)} + ${b}²`,s:[`${fmt(a)} + ${b*b}`],v:a+b*b}},
+   ()=>{const a=rnd(-5,20),b=rnd(2,4);return{e:`${fmt(a)} − ${b}³`,s:[`${fmt(a)} − ${b**3}`],v:a-b**3}},
+   ()=>{const b=rnd(2,6),a=rndNZ(-10,10);return{e:`(${MINUS}${b})² + ${br(a)}`,s:[`${b*b} + ${br(a)}`],v:b*b+a,note:'A negative number squared is positive.'}},
+   ()=>{const b=rnd(2,3),a=rnd(1,15);return{e:`(${MINUS}${b})³ + ${a}`,s:[`${fmt(-(b**3))} + ${a}`],v:a-b**3,note:'A negative number cubed is negative.'}},
+   ()=>{const a=rndNZ(-4,4),b=rnd(2,5),c=rnd(1,10);return{e:`${fmt(a)} × ${b}² − ${c}`,s:[`${fmt(a)} × ${b*b} − ${c}`,`${fmt(a*b*b)} − ${c}`],v:a*b*b-c}},
+   ()=>{const a=rnd(1,6);let b;do{b=rnd(1,10)}while(b===a);return{e:`(${a} − ${b})²`,s:[`(${fmt(a-b)})²`],v:(a-b)**2}}]};
+const steps=t=>`<div class="steps"><div>${t.e}</div>${t.s.map(x=>`<div>= ${x}</div>`).join('')}<div><b>= ${fmt(t.v)}</b></div></div>`+(t.note?`<p class="small">${t.note}</p>`:'');
+const bidmas=L=>()=>{const lv=L||rnd(1,3),t=pick(T[lv])();return{topic:'BIDMAS',q:`<div class="expr">${t.e}</div>`,check:numCheck(t.v,signHint(t.v)),sol:steps(t)}};
+
+/* ---------- signs ---------- */
+const signs=()=>{const k=rnd(1,5);let e,v,s;
+ if(k===1){const a=rndNZ(-12,12),b=rndNZ(-9,9);e=`${fmt(a)} × ${br(b)}`;v=a*b;s=(a<0)===(b<0)?'Same signs give a positive.':'Different signs give a negative.'}
+ else if(k===2){const b=rndNZ(-9,9),q=rndNZ(-9,9),a=b*q;e=`${fmt(a)} ÷ ${br(b)}`;v=q;s=(a<0)===(b<0)?'Same signs give a positive.':'Different signs give a negative.'}
+ else if(k===3){const a=rnd(-15,-1),b=rnd(1,15);e=`${fmt(a)} + ${b}`;v=a+b;s=`Start at ${fmt(a)} and move ${b} to the right.`}
+ else if(k===4){const a=rnd(-15,-1),b=rnd(1,15);e=`${fmt(a)} − ${b}`;v=a-b;s=`Start at ${fmt(a)} and move ${b} to the left.`}
+ else{const a=rnd(-10,10),b=rnd(1,10);e=`${fmt(a)} − (${MINUS}${b})`;v=a+b;s=`Subtracting a negative is adding: ${fmt(a)} + ${b}.`}
+ return{topic:'Signs',q:`<div class="expr">${e}</div>`,check:numCheck(v,signHint(v)),sol:`<div class="steps"><div>${e} = <b>${fmt(v)}</b></div></div><p>${s}</p>`}};
+
+/* ---------- number line, absolute value ---------- */
+function numberLine(pts,arc){const W=640,pad=22,min=-12,max=12,x=v=>pad+(v-min)*(W-2*pad)/(max-min);let s=`<svg viewBox="0 0 ${W} 104" role="img" aria-label="number line">`;
+ if(arc){const[a,b]=arc,x1=x(a),x2=x(b),m=(x1+x2)/2;s+=`<path d="M${x1} 62 Q${m} ${62-2*Math.min(38,Math.abs(x2-x1)/2)} ${x2} 62" fill="none" stroke="#f59e0b" stroke-width="3"/><text x="${m}" y="${62-Math.min(38,Math.abs(x2-x1)/2)-6}" text-anchor="middle" font-size="15" font-weight="700" fill="#b45309" font-family="Lexend,sans-serif">${Math.abs(b-a)}</text>`}
+ s+=`<line x1="${pad-12}" y1="70" x2="${W-pad+12}" y2="70" stroke="#374151" stroke-width="2"/>`;
+ for(let v=min;v<=max;v++){const big=v%5===0;s+=`<line x1="${x(v)}" y1="${big?62:65}" x2="${x(v)}" y2="${big?78:75}" stroke="#374151" stroke-width="${v===0?2.5:1}"/>`;if(v%2===0)s+=`<text x="${x(v)}" y="96" text-anchor="middle" font-size="13" fill="${v===0?'#1f2937':'#6b7280'}" font-weight="${v===0?700:400}" font-family="Lexend,sans-serif">${fmt(v)}</text>`}
+ pts.forEach(p=>{s+=`<circle cx="${x(p)}" cy="70" r="7" fill="#0f766e"/>`});return s+'</svg>'}
+const absval=()=>{const k=rnd(1,4);
+ if(k===1){const a=rndNZ(-12,12);return{topic:'Absolute value',q:`<div class="expr">|${fmt(a)}| = ?</div>`,check:numCheck(Math.abs(a),n=>n<0?'A distance is never negative.':''),sol:numberLine([a],[0,a])+`<p>${fmt(a)} is ${Math.abs(a)} steps from 0, so |${fmt(a)}| = <b>${Math.abs(a)}</b>.</p>`}}
+ if(k===2){const a=rndNZ(-9,9),b=rndNZ(-9,9),o=pick(['+','−']),v=o==='+'?Math.abs(a)+Math.abs(b):Math.abs(a)-Math.abs(b);const e=`|${fmt(a)}| ${o} |${fmt(b)}|`;return{topic:'Absolute value',q:`<div class="expr">${e}</div>`,check:numCheck(v),sol:`<div class="steps"><div>${e}</div><div>= ${Math.abs(a)} ${o} ${Math.abs(b)}</div><div><b>= ${fmt(v)}</b></div></div><p class="small">Find each absolute value first.</p>`}}
+ if(k===3){let a,b;do{a=rnd(-10,10);b=rnd(-10,10)}while(a===b);return{topic:'Distance',q:`<p>What is the distance between <b>${fmt(a)}</b> and <b>${fmt(b)}</b> on the number line?</p>`+numberLine([a,b]),check:numCheck(Math.abs(a-b),n=>n<0?'A distance is never negative.':''),sol:numberLine([a,b],[a,b])+`<p>Count the steps from ${fmt(Math.min(a,b))} to ${fmt(Math.max(a,b))}: <b>${Math.abs(a-b)}</b>. Same as |${fmt(a)} − ${br(b)}| = ${Math.abs(a-b)}.</p>`}}
+ const lo=rnd(-10,-1),hi=rnd(1,10),t1=pick(['7:00','6:00','8:00']),t2=pick(['13:00','14:00','15:00']);
+ return{topic:'Distance',q:`<p>At ${t1} the temperature in Tallinn is <b>${fmt(lo)} °C</b>. At ${t2} it is <b>${hi} °C</b>. By how many degrees did the temperature rise?</p>`,check:numCheck(hi-lo),sol:numberLine([lo,hi],[lo,hi])+`<p>From ${fmt(lo)} to 0 is ${-lo} degrees, and from 0 to ${hi} is ${hi} degrees: ${-lo} + ${hi} = <b>${hi-lo}</b> degrees.</p>`}};
+
+/* ---------- Johnny ---------- */
+const JOHNNY=[
+['5 + 7 = 12 − 10 = 2',0,'Chained equals signs','5 + 7 is not 2, so the first = is false. Write 5 + 7 − 10 = 12 − 10 = 2, or one step per line.'],
+['(−6) × (−3) = −18',0,'Signs in × and ÷','Same signs give a positive: (−6) × (−3) = 18.'],
+['−4 + 9 = 5',1,'','Start at −4 and move 9 to the right: 5.'],
+['−8 − 3 = −5',0,'Negative first number','Start at −8 and move 3 to the left: −8 − 3 = −11.'],
+['20 ÷ (−4) = −5',1,'','Different signs give a negative.'],
+['2 + 3 × 4 = 20',0,'BIDMAS order','Multiply first: 2 + 12 = 14.'],
+['(−2)² = 4',1,'','(−2) × (−2) = 4.'],
+['−3² = 9',0,'Powers','Without brackets only the 3 is squared: −3² = −(3 × 3) = −9. With brackets, (−3)² = 9.'],
+['10 − 15 = −5',1,'','Start at 10 and move 15 to the left: −5.'],
+['12 ÷ (−3) × 2 = −2',0,'BIDMAS order','÷ and × are on the same level, so work left to right: 12 ÷ (−3) = −4, then −4 × 2 = −8.'],
+['7 − (−3) = 4',0,'Signs','Subtracting a negative is adding: 7 − (−3) = 7 + 3 = 10.'],
+['|−6| = −6',0,'Absolute value','Absolute value is a distance from 0, never negative: |−6| = 6.'],
+['(−5) × 0 = −5',0,'Zero','Any number times 0 is 0.'],
+['7 ÷ 0 = 0',0,'Zero','We cannot divide by 0: no number times 0 gives 7.'],
+['0 ÷ 7 = 0',1,'','0 shared into 7 groups is 0.'],
+['3 + (−2)³ = −5',1,'','(−2)³ = −8, and 3 + (−8) = −5.'],
+['10 − 15 = −5 − 3 = −8',0,'Chained equals signs','10 − 15 is not −8. Write 10 − 15 − 3 = −5 − 3 = −8.'],
+['−2 × 5 + 1 = −9',1,'','Multiply first: −10 + 1 = −9.'],
+['−4 × (−5) = −20',0,'Signs in × and ÷','Same signs give a positive: −4 × (−5) = 20.'],
+['−1 + 1 = 0',1,'','A number plus its opposite is 0: a zero pair.'],
+['|−3| + |2| = 1',0,'Absolute value','Find each absolute value first: 3 + 2 = 5.'],
+['−6 ÷ 2 = −3',1,'','Different signs give a negative.']].map(([l,r,t,f])=>({l:l.replace(/-/g,MINUS),r:!!r,t,f:f.replace(/(^|[\s(|])-(?=\d)/g,'$1'+MINUS)}));
+let jDeck=[];
+const johnny=()=>{if(!jDeck.length)jDeck=shuffle(JOHNNY);const j=jDeck.pop();
+ return{topic:'Spot the mistake',q:`<div class="johnny">${j.l}</div>`,choices:['✓ Johnny is right','✗ Johnny made a mistake'],ans:j.r?0:1,sol:j.r?`Yes, this one is right. ${j.f}`:`<b>Mistake: ${j.t}.</b> ${j.f}`}};
+
+/* ---------- coordinate grid ---------- */
+const N=6,S=360,P=22,U=(S-2*P)/(2*N),GX=v=>P+(v+N)*U,GY=v=>P+(N-v)*U;
+function grid(pts){let s=`<svg viewBox="0 0 ${S} ${S}" role="img" aria-label="coordinate grid">`;
+ for(let i=-N;i<=N;i++){s+=`<line x1="${GX(i)}" y1="${GY(-N)}" x2="${GX(i)}" y2="${GY(N)}" stroke="#e5e7eb"/><line x1="${GX(-N)}" y1="${GY(i)}" x2="${GX(N)}" y2="${GY(i)}" stroke="#e5e7eb"/>`}
+ s+=`<line x1="${GX(-N)-8}" y1="${GY(0)}" x2="${GX(N)+8}" y2="${GY(0)}" stroke="#374151" stroke-width="2"/><line x1="${GX(0)}" y1="${GY(-N)-8}" x2="${GX(0)}" y2="${GY(N)+8}" stroke="#374151" stroke-width="2"/>`;
+ s+=`<text x="${GX(N)+10}" y="${GY(0)+4}" font-size="13" font-style="italic" fill="#374151">x</text><text x="${GX(0)+6}" y="${GY(N)-6}" font-size="13" font-style="italic" fill="#374151">y</text>`;
+ for(let i=-N;i<=N;i++){if(!i)continue;s+=`<text x="${GX(i)}" y="${GY(0)+14}" text-anchor="middle" font-size="10" fill="#6b7280">${fmt(i)}</text><text x="${GX(0)-5}" y="${GY(i)+3.5}" text-anchor="end" font-size="10" fill="#6b7280">${fmt(i)}</text>`}
+ s+=`<text x="${GX(0)-5}" y="${GY(0)+14}" text-anchor="end" font-size="10" fill="#6b7280">0</text>`;
+ pts.forEach(p=>{s+=`<circle cx="${GX(p.x)}" cy="${GY(p.y)}" r="6" fill="${p.c||'#0f766e'}"/>`;if(p.l)s+=`<text x="${GX(p.x)+8}" y="${GY(p.y)-8}" font-size="15" font-weight="700" fill="${p.c||'#0f766e'}" font-family="Lexend,sans-serif">${p.l}</text>`});return s+'</svg>'}
+const quadName=(x,y)=>!x||!y?(!x&&!y?'the origin':!x?'on the y-axis':'on the x-axis'):x>0&&y>0?'the first quadrant':x<0&&y>0?'the second quadrant':x<0?'the third quadrant':'the fourth quadrant';
+const walk=(x,y)=>`${x?`${Math.abs(x)} ${x>0?'right':'left'}`:'0 along'}, then ${y?`${Math.abs(y)} ${y>0?'up':'down'}`:'0 up or down'}`;
+const parsePt=s=>{const m=String(s).replace(/[−–]/g,'-').replace(/\s/g,'').match(/^\(?(-?\d+)[,;](-?\d+)\)?$/);return m?[+m[1],+m[2]]:null};
+const readPt=()=>{let x,y;do{x=rnd(-N,N);y=rnd(-N,N)}while(x===y||(!x&&!y));
+ return{topic:'Coordinates',ph:'(x, y)',q:`<p>Write the coordinates of point <b>P</b>.</p><div class="gridbox">${grid([{x,y,l:'P'}])}</div>`,
+  check:v=>{const p=parsePt(v);if(!p)return{bad:true,msg:'Write it like (3, −2).'};if(p[0]===x&&p[1]===y)return{ok:true};if(p[0]===y&&p[1]===x)return{msg:'You swapped the numbers, like Johnny! Along first, then up or down.'};return{msg:''}},
+  sol:`From the origin: ${walk(x,y)}. P = <b>(${fmt(x)}, ${fmt(y)})</b>, in ${quadName(x,y)}.`}};
+const quadQ=()=>{let x=rndNZ(-6,6),y=rndNZ(-6,6);if(Math.random()<.15)x=0;else if(Math.random()<.15)y=0;
+ const opts=['First (top right)','Second (top left)','Third (bottom left)','Fourth (bottom right)','On an axis'];const ans=!x||!y?4:x>0&&y>0?0:x<0&&y>0?1:x<0?2:3;
+ return{topic:'Coordinates',q:`<p>Where is the point <b>(${fmt(x)}, ${fmt(y)})</b>?</p>`,choices:opts,ans,sol:`Go ${walk(x,y)}: the point is in ${quadName(x,y)}.`}};
+
+function plotGame(el){let tx,ty,placed,first;
+ el.innerHTML=`<div class="score"><span class="sc"></span><span class="st"></span></div><div class="q"></div><div class="gridbox"></div><div class="fb" aria-live="polite"></div><div class="row"><button type="button" class="btn chk">Check</button><button type="button" class="btn ghost next">Next point →</button></div>`;
+ const q=$('.q',el),gb=$('.gridbox',el),fb=$('.fb',el),sb=scoreBar(el),chk=$('.chk',el);
+ const draw=extra=>{const pts=[];if(extra)pts.push(extra);if(placed)pts.push({...placed,c:'#d97706',l:''});gb.innerHTML=grid(pts);
+  $('svg',gb).onclick=e=>{if(!first)return;const r=e.currentTarget.getBoundingClientRect();const px=(e.clientX-r.left)*S/r.width,py=(e.clientY-r.top)*S/r.height;
+   const x=Math.round((px-P)/U)-N,y=N-Math.round((py-P)/U);if(Math.abs(x)>N||Math.abs(y)>N)return;placed={x,y};fb.className='fb';fb.innerHTML=`You chose (${fmt(x)}, ${fmt(y)}). Press Check.`;draw()}};
+ const next=()=>{do{tx=rnd(-N,N);ty=rnd(-N,N)}while(tx===ty||(!tx&&!ty));placed=null;first=true;chk.disabled=false;q.innerHTML=`<p>Tap the grid to plot <b>Q (${fmt(tx)}, ${fmt(ty)})</b>.</p>`;fb.className='fb';fb.innerHTML='';draw()};
+ chk.onclick=()=>{if(!placed){fb.className='fb warn';fb.innerHTML='Tap the grid first.';return}const ok=placed.x===tx&&placed.y===ty;sb.add(ok);first=false;chk.disabled=true;
+  if(ok){fb.className='fb good';fb.innerHTML=`✓ Correct! ${walk(tx,ty)}.`;placed=null;draw({x:tx,y:ty,l:'Q'})}
+  else{fb.className='fb bad';fb.innerHTML=`✗ Not quite. ${placed.x===ty&&placed.y===tx?'You swapped the numbers. ':''}Q is ${walk(tx,ty)} from the origin (teal point).`;draw({x:tx,y:ty,l:'Q'})}};
+ $('.next',el).onclick=next;next()}
+
+/* ---------- wire up ---------- */
+chipPanel($('#pchips'),$('#ppanel'),{
+ b1:{label:'BIDMAS: × and ÷ first',gen:bidmas(1)},b2:{label:'BIDMAS: brackets',gen:bidmas(2)},b3:{label:'BIDMAS: powers',gen:bidmas(3)},bm:{label:'BIDMAS: mixed',gen:bidmas(0)},
+ sg:{label:'Signs',gen:signs},ab:{label:'Absolute value and distance',gen:absval},jo:{label:'Is Johnny right?',gen:johnny},
+ cr:{label:'Coordinates: read',gen:readPt},cp:{label:'Coordinates: plot',fn:plotGame},cq:{label:'Which quadrant?',gen:quadQ}});
+quiz($('#quiz'),()=>[bidmas(1),bidmas(1),bidmas(2),bidmas(3),signs,signs,johnny,johnny,absval,absval,quadQ,readPt],
+ '12 mixed questions, like the test: BIDMAS, signs, spotting mistakes, absolute value and coordinates. One try per question. At the end you see what to revise. <b>No calculator</b>, and write your working in your notebook.');
+tabs();
+</script><script>const GK={best(k,v){try{const o=+localStorage.getItem('g_'+k)||0;if(v!==undefined&&v>o){localStorage.setItem('g_'+k,v);return v}return Math.max(o,v||0)}catch(e){return v||0}}};
+function overlay(stage,html,btnText,onBtn){const o=document.createElement('div');o.className='ovl';o.innerHTML=html+(btnText?`<button type="button" class="btn">${btnText}</button>`:'');stage.appendChild(o);if(btnText)$('.btn',o).onclick=()=>{o.remove();onBtn()};return o}
+function toast(stage,text,color){const t=document.createElement('div');t.className='toast';t.style.color=color||'#facc15';t.textContent=text;stage.appendChild(t);setTimeout(()=>t.remove(),950)}
+const hearts=(n,max=3)=>'❤️'.repeat(Math.max(0,n))+'🖤'.repeat(Math.max(0,max-n));
+function loop(fn){let on=true,last=performance.now();const f=t=>{if(!on)return;const dt=Math.min(.05,(t-last)/1000);last=t;fn(dt);if(on)requestAnimationFrame(f)};requestAnimationFrame(f);return()=>{on=false}}
+function later(fn,ms,bag){const id=setTimeout(fn,ms);bag&&bag.push(id);return id}
+function gameHub(pickEl,panelEl,games){
+  let stop=null;
+  const home=()=>{if(stop)stop();stop=null;panelEl.hidden=true;panelEl.innerHTML='';pickEl.hidden=false;
+    pickEl.innerHTML=`<div class="gpick">${Object.entries(games).map(([k,g])=>{const b=GK.best(k);return`<button type="button" class="gcard ${g.cls}" data-k="${k}">${b?`<span class="best">Best ${b}</span>`:''}<div class="emo">${g.emo}</div><b>${g.title}</b><span>${g.desc}</span></button>`}).join('')}</div>`};
+  pickEl.onclick=e=>{const c=e.target.closest('.gcard');if(!c)return;const k=c.dataset.k,g=games[k];pickEl.hidden=true;panelEl.hidden=false;
+    panelEl.innerHTML='<button type="button" class="backbtn">← All games</button><div class="gbody"></div>';$('.backbtn',panelEl).onclick=home;
+    stop=g.run($('.gbody',panelEl),k)||null;panelEl.scrollIntoView({block:'start'})};
+  addEventListener('hashchange',()=>{if(stop)home()});
+  home();
+}
+
+/* ================= COORDINATE BATTLESHIPS ================= */
+function battleships(root,key){
+  const R=5,SIZES=[4,3,3,2],k=(x,y)=>x+','+y,timers=[];let over=false;
+  function place(){for(let t=0;t<200;t++){const ships=[],occ=new Set();let ok=true;
+    for(const n of SIZES){let done=false;for(let a=0;a<300&&!done;a++){const h=Math.random()<.5;const x0=h?rnd(-R,R-n+1):rnd(-R,R),y0=h?rnd(-R,R):rnd(-R,R-n+1);
+      const pts=[];for(let i=0;i<n;i++)pts.push(h?[x0+i,y0]:[x0,y0+i]);
+      if(pts.every(([x,y])=>!occ.has(k(x,y)))){pts.forEach(([x,y])=>occ.add(k(x,y)));ships.push({pts,hit:0,n});done=true}}if(!done){ok=false;break}}
+    if(ok)return ships}}
+  let foe,me,shotsFoe,shotsMe,nShots,hitsFoe,busy,aiQueue,last,lastMe;
+  root.innerHTML=`<div class="stage g-night" style="background:linear-gradient(160deg,#0b1220,#1e3a8a)"><div class="hud"><span>⚓ Coordinate Battleships</span><span class="lvl sh">Shots: 0</span></div>
+    <div class="bs"><form><input aria-label="Coordinates to fire at" placeholder="(x, y)" autocomplete="off" autocapitalize="off" spellcheck="false"><button class="btn fire">🔥 Fire!</button></form>
+    <div class="log" aria-live="polite"></div>
+    <div class="boards"><div class="b1"><div class="cap">Enemy waters (Robo's fleet)</div><div class="eb"></div><div class="fleet ef"></div></div>
+    <div class="b2"><div class="cap">Your fleet</div><div class="mb"></div><div class="fleet mf"></div></div></div></div></div>`;
+  const stage=$('.stage',root),inp=$('input',root),log=$('.log',root);
+  const S=300,P=18,U=(S-2*P)/(2*R),X=v=>P+(v+R)*U,Y=v=>P+(R-v)*U;
+  function board(shots,ships,showShips,lastShot,small){let s=`<svg viewBox="0 0 ${S} ${S}" role="img" aria-label="grid">`;
+    for(let i=-R;i<=R;i++)s+=`<line x1="${X(i)}" y1="${Y(-R)}" x2="${X(i)}" y2="${Y(R)}" stroke="rgba(148,197,255,.25)"/><line x1="${X(-R)}" y1="${Y(i)}" x2="${X(R)}" y2="${Y(i)}" stroke="rgba(148,197,255,.25)"/>`;
+    s+=`<line x1="${X(-R)-6}" y1="${Y(0)}" x2="${X(R)+6}" y2="${Y(0)}" stroke="#93c5fd" stroke-width="2"/><line x1="${X(0)}" y1="${Y(-R)-6}" x2="${X(0)}" y2="${Y(R)+6}" stroke="#93c5fd" stroke-width="2"/>`;
+    if(!small)for(let i=-R;i<=R;i++){if(!i)continue;s+=`<text x="${X(i)}" y="${Y(0)+12}" text-anchor="middle" font-size="9" fill="#bfdbfe">${fmt(i)}</text><text x="${X(0)-4}" y="${Y(i)+3}" text-anchor="end" font-size="9" fill="#bfdbfe">${fmt(i)}</text>`}
+    s+=`<text x="${X(R)+2}" y="${Y(0)-5}" font-size="11" font-style="italic" fill="#bfdbfe">x</text><text x="${X(0)+5}" y="${Y(R)+4}" font-size="11" font-style="italic" fill="#bfdbfe">y</text>`;
+    ships.forEach(sh=>{const sunk=sh.hit===sh.n;if(showShips||sunk){const[a,b]=[sh.pts[0],sh.pts[sh.n-1]];s+=`<line x1="${X(a[0])}" y1="${Y(a[1])}" x2="${X(b[0])}" y2="${Y(b[1])}" stroke="${sunk?'#ef4444':'#94a3b8'}" stroke-width="${U*.55}" stroke-linecap="round" opacity="${sunk?.55:.9}"/>`}});
+    for(const[kk,v]of shots){const[x,y]=kk.split(',').map(Number);
+      s+=v==='hit'?`<text x="${X(x)}" y="${Y(y)+6}" text-anchor="middle" font-size="${small?14:18}">💥</text>`:`<circle cx="${X(x)}" cy="${Y(y)}" r="${small?3:4}" fill="#e2e8f0" opacity=".8"/>`}
+    if(lastShot){const[x,y]=lastShot;s+=`<circle cx="${X(x)}" cy="${Y(y)}" r="${U*.55}" fill="none" stroke="#facc15" stroke-width="2.5"/>`;if(!small)s+=`<text x="${Math.min(X(x)+12,S-50)}" y="${Math.max(Y(y)-12,12)}" font-size="12" font-weight="700" fill="#facc15">(${fmt(x)}, ${fmt(y)})</text>`}
+    return s+'</svg>'}
+  const fleetTxt=ships=>ships.map(s=>s.hit===s.n?`<s>${'■'.repeat(s.n)}</s>`:'■'.repeat(s.n)).join(' &nbsp; ');
+  function draw(){$('.eb',root).innerHTML=board(shotsFoe,foe,over,last,false);$('.mb',root).innerHTML=board(shotsMe,me,true,lastMe,true);
+    $('.ef',root).innerHTML='Ships left: '+fleetTxt(foe);$('.mf',root).innerHTML=fleetTxt(me);$('.sh',root).textContent=`Shots: ${nShots}`}
+  function shoot(ships,shots,x,y){const kk=k(x,y);for(const sh of ships)if(sh.pts.some(p=>p[0]===x&&p[1]===y)){sh.hit++;shots.set(kk,'hit');return sh.hit===sh.n?{hit:1,sunk:sh}:{hit:1}}shots.set(kk,'miss');return{}}
+  function robo(){if(over)return;let target;
+    while(aiQueue.length&&!target){const c=aiQueue.shift();if(Math.abs(c[0])<=R&&Math.abs(c[1])<=R&&!shotsMe.has(k(...c)))target=c}
+    if(!target){do{target=[rnd(-R,R),rnd(-R,R)]}while(shotsMe.has(k(...target))||((target[0]+target[1])&1)&&Math.random()<.7)}
+    const r=shoot(me,shotsMe,...target);lastMe=target;
+    if(r.hit&&!r.sunk)aiQueue.unshift([target[0]+1,target[1]],[target[0]-1,target[1]],[target[0],target[1]+1],[target[0],target[1]-1]);
+    if(r.sunk)aiQueue=[];
+    log.innerHTML+=`<br>🤖 Robo fires at <b>(${fmt(target[0])}, ${fmt(target[1])})</b>… ${r.sunk?'💥 and sinks one of your ships!':r.hit?'💥 HIT!':'splash, a miss.'}`;
+    draw();busy=false;inp.disabled=false;
+    if(me.every(s=>s.hit===s.n)){over=true;draw();overlay(stage,`<div class="emo">🌊</div><h2>Robo wins this time</h2><p>All your ships are sunk. Robo's fleet is now visible on the map.</p>`,'Play again',start)}
+    else inp.focus({preventScroll:true})}
+  $('form',root).onsubmit=e=>{e.preventDefault();if(busy||over)return;const p=parsePt(inp.value);
+    if(!p){log.innerHTML='Type coordinates like <b>(3, −2)</b>: along first, then up or down.';stage.classList.add('shake');later(()=>stage.classList.remove('shake'),300,timers);return}
+    const[x,y]=p;if(Math.abs(x)>R||Math.abs(y)>R){log.innerHTML=`(${fmt(x)}, ${fmt(y)}) is off the map! Both numbers must be between −5 and 5.`;return}
+    if(shotsFoe.has(k(x,y))){log.innerHTML=`You already fired at (${fmt(x)}, ${fmt(y)}).`;return}
+    nShots++;const r=shoot(foe,shotsFoe,x,y);last=[x,y];inp.value='';
+    log.innerHTML=`🎯 You fire at <b>(${fmt(x)}, ${fmt(y)})</b>… ${r.sunk?`💥 You sank a ship of ${r.sunk.n}!`:r.hit?'💥 HIT!':'splash, a miss.'}`;
+    if(r.hit)toast(stage,r.sunk?'SUNK! 🚢':'HIT! 💥');draw();
+    if(foe.every(s=>s.hit===s.n)){over=true;const sc=Math.max(10,100-nShots);const b=GK.best(key,sc);draw();
+      overlay(stage,`<div class="emo">🏆</div><h2>Victory!</h2><p>You sank Robo's whole fleet in <b>${nShots}</b> shots.</p><p>Score: <b>${sc}</b> · Best: ${b}</p>`,'Play again',start);return}
+    busy=true;inp.disabled=true;later(robo,900,timers)};
+  function start(){foe=place();me=place();shotsFoe=new Map();shotsMe=new Map();nShots=0;busy=false;over=false;aiQueue=[];last=lastMe=null;inp.disabled=false;
+    log.innerHTML='Robo has hidden 4 ships on the grid points. Type coordinates and fire!';draw()}
+  start();
+  overlay(stage,`<div class="emo">⚓</div><h2>Coordinate Battleships</h2><p>Robo has hidden 4 ships on the grid. Sink them before Robo sinks yours!</p><p>Type where to fire, like <b>(3, −2)</b>. Remember: <b>along first</b>, then up or down. Swap them and your torpedo lands in the wrong place!</p>`,"Let's play",()=>inp.focus());
+  return()=>{over=true;timers.forEach(clearTimeout)};
+}
+
+/* ================= JOHNNY'S BUG HUNT ================= */
+function bugLine(){let e,v,w;const t=rnd(1,8);
+  if(t===1){let a,b;do{a=rndNZ(-9,9);b=rndNZ(-9,9)}while(a>0&&b>0);e=`${fmt(a)} × ${br(b)}`;v=a*b;w=-v}
+  else if(t===2){let b,q;do{b=rndNZ(-9,9);q=rndNZ(-9,9)}while(b>0&&q>0);e=`${fmt(b*q)} ÷ ${br(b)}`;v=q;w=-q}
+  else if(t===3){const a=rnd(-12,-2),b=rnd(1,9);e=`${fmt(a)} − ${b}`;v=a-b;w=a+b}
+  else if(t===4){const a=rnd(1,9),b=rnd(2,6),c=rnd(2,6);e=`${a} + ${b} × ${c}`;v=a+b*c;w=(a+b)*c}
+  else if(t===5){const b=rnd(2,7);if(Math.random()<.5){e=`(${MINUS}${b})²`;v=b*b;w=-b*b}else{e=`${MINUS}${b}²`;v=-b*b;w=b*b}}
+  else if(t===6){const a=rnd(-12,-1);e=`|${fmt(a)}|`;v=-a;w=a}
+  else if(t===7){const a=rnd(-6,10),b=rnd(1,9);e=`${fmt(a)} − (${MINUS}${b})`;v=a+b;w=a-b}
+  else{const a=rndNZ(-9,9);e=Math.random()<.5?`${fmt(a)} × 0`:`0 × ${br(a)}`;v=0;w=a}
+  const bug=Math.random()<.55&&w!==v;return{text:`${e} = ${fmt(bug?w:v)}`,bug,fix:`${e} = ${fmt(v)}`}}
+function bugHunt(root,key){
+  root.innerHTML=`<div class="stage"><div class="hud"><span class="hs"></span><span class="lvl lv"></span><span class="pts"></span></div><div class="lane"></div></div>`;
+  const stage=$('.stage',root),lane=$('.lane',root);let items,lives,score,squashed,level,spawnT,missed,stop=null,run=false;
+  const hud=()=>{$('.hs',root).textContent=hearts(lives);$('.pts',root).textContent=`⭐ ${score}`;$('.lv',root).textContent=`Level ${level}`};
+  function lose(msg){lives--;stage.classList.add('shake');setTimeout(()=>stage.classList.remove('shake'),300);toast(stage,msg,'#f87171');hud();if(lives<=0)end()}
+  function spawn(){const L=bugLine(),d=document.createElement('div');d.className='bug';d.textContent=L.text;lane.appendChild(d);
+    const W=lane.clientWidth,w=d.offsetWidth;const it={d,L,y:-44,x:rnd(6,Math.max(6,W-w-6))};d.style.left=it.x+'px';d.style.top=it.y+'px';
+    d.onpointerdown=e=>{e.preventDefault();if(!run||it.done)return;it.done=true;
+      if(L.bug){d.classList.add('squash');squashed++;score+=10*level;toast(stage,'SQUASH! 🐞');if(squashed%5===0){level++;toast(stage,`Level ${level}! ⚡`,'#a5f3fc')}hud()}
+      else{d.classList.add('oops');later(()=>d.remove(),400);lose('That one was right!')}};
+    items.push(it)}
+  function tick(dt){if(!run)return;const speed=34+level*9;spawnT-=dt;if(spawnT<=0){spawn();spawnT=Math.max(1.05,2.6-level*.2)}
+    const H=lane.clientHeight;for(const it of items){if(it.done)continue;it.y+=speed*dt;it.d.style.top=it.y+'px';
+      if(it.y>H-40){it.done=true;it.d.remove();if(it.L.bug){missed.push(it.L);lose('A bug escaped! 🐛')}else{score+=1;hud()}if(!run)return}}
+    items=items.filter(it=>!it.done||it.d.isConnected)}
+  function start(){lane.innerHTML='';items=[];lives=3;score=0;squashed=0;level=1;spawnT=.3;missed=[];run=true;hud();stop&&stop();stop=loop(tick)}
+  function end(){run=false;stop&&stop();const b=GK.best(key,score);
+    const ml=missed.slice(-4).map(m=>`<li><s>${m.text}</s> → <b>${m.fix}</b></li>`).join('');
+    overlay(stage,`<div class="emo">🐞</div><h2>Game over</h2><p>You squashed <b>${squashed}</b> bugs. Score <b>${score}</b> · Best ${b}</p>${ml?`<p style="margin-top:6px">Bugs that escaped, fixed:</p><ul>${ml}</ul>`:''}`,'Play again',start)}
+  lives=3;score=0;level=1;hud();
+  overlay(stage,`<div class="emo">🐞</div><h2>Johnny's Bug Hunt</h2><p>Johnny's homework is crawling with bugs! Lines fall down the screen.</p><p><b>Tap the WRONG lines</b> to squash them before they reach the bottom. Leave the right ones alone, or you lose a life.</p>`,'Start hunting',start);
+  return()=>{run=false;stop&&stop()};
+}
+
+/* ================= INTEGER SNAKES AND LADDERS ================= */
+function snakes(root,key){
+  const LAD={3:11,6:17,14:25,19:28},SNK={13:4,22:9,27:15,29:20},END=30,C=6;
+  root.innerHTML=`<div class="stage" style="background:linear-gradient(160deg,#14532d,#15803d)"><div class="hud"><span>🐍 Snakes and Ladders</span><span class="lvl turn"></span></div>
+   <div class="sl"><div class="bd"></div><div class="ctrl2"><span class="die">🎲</span><button type="button" class="btn roll" style="background:#facc15;color:#1f2937;box-shadow:0 3px 0 #a16207">Roll the die</button><span class="msg" aria-live="polite"></span></div><div class="qwrap"></div></div></div>`;
+  const stage=$('.stage',root),die=$('.die',root),rollB=$('.roll',root),msg=$('.msg',root),qw=$('.qwrap',root),timers=[];let pos,turn,over,correct,total;
+  const W=360,CW=W/C,H=CW*5;
+  const cell=n=>{const r=Math.floor((n-1)/C),c=(n-1)%C,col=r%2?C-1-c:c;return[col*CW+CW/2,H-(r*CW+CW/2)]};
+  function drawBoard(){let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="board">`;
+    for(let n=1;n<=END;n++){const[x,y]=cell(n);s+=`<rect x="${x-CW/2}" y="${y-CW/2}" width="${CW}" height="${CW}" fill="${(Math.floor((n-1)/C)+n)%2?'#fef9c3':'#fde68a'}"/><text x="${x-CW/2+4}" y="${y-CW/2+13}" font-size="11" fill="#78350f" font-weight="600">${n===END?'🏁':n}</text>`}
+    for(const[a,b]of Object.entries(LAD)){const[x1,y1]=cell(+a),[x2,y2]=cell(b);const dx=x2-x1,dy=y2-y1,L=Math.hypot(dx,dy),nx=-dy/L*7,ny=dx/L*7;
+      s+=`<line x1="${x1+nx}" y1="${y1+ny}" x2="${x2+nx}" y2="${y2+ny}" stroke="#92400e" stroke-width="3"/><line x1="${x1-nx}" y1="${y1-ny}" x2="${x2-nx}" y2="${y2-ny}" stroke="#92400e" stroke-width="3"/>`;
+      for(let t=.12;t<1;t+=.16)s+=`<line x1="${x1+dx*t+nx}" y1="${y1+dy*t+ny}" x2="${x1+dx*t-nx}" y2="${y1+dy*t-ny}" stroke="#92400e" stroke-width="2.5"/>`}
+    for(const[a,b]of Object.entries(SNK)){const[x1,y1]=cell(+a),[x2,y2]=cell(b);const mx=(x1+x2)/2,my=(y1+y2)/2,dx=x2-x1,dy=y2-y1;
+      s+=`<path d="M${x1} ${y1} C ${mx-dy*.35} ${my+dx*.35}, ${mx+dy*.35} ${my-dx*.35}, ${x2} ${y2}" fill="none" stroke="#16a34a" stroke-width="8" stroke-linecap="round" opacity=".9"/><circle cx="${x1}" cy="${y1}" r="7" fill="#15803d"/><circle cx="${x1-2}" cy="${y1-2}" r="1.6" fill="#fff"/>`}
+    const tok=(n,col,dx)=>{const[x,y]=cell(Math.max(1,n));return`<circle cx="${x+dx}" cy="${y+6}" r="10" fill="${col}" stroke="#fff" stroke-width="2.5"/>`};
+    s+=tok(pos[1],'#64748b',8)+`<text x="${cell(Math.max(1,pos[1]))[0]+8}" y="${cell(Math.max(1,pos[1]))[1]+10}" text-anchor="middle" font-size="11">🤖</text>`;
+    s+=tok(pos[0],'#2563eb',-8)+`<text x="${cell(Math.max(1,pos[0]))[0]-8}" y="${cell(Math.max(1,pos[0]))[1]+10}" text-anchor="middle" font-size="11" fill="#fff" font-weight="700">You</text>`;
+    $('.bd',root).innerHTML=s+'</svg>'}
+  const mix=()=>pick([bidmas(1),bidmas(2),bidmas(3),signs,signs,absval])();
+  function move(p,steps,then){const target=Math.max(1,Math.min(END,pos[p]+steps));const dir=Math.sign(target-pos[p]);
+    const step=()=>{if(over)return;if(pos[p]!==target){pos[p]+=dir;drawBoard();later(step,170,timers)}else{let note='';
+      if(LAD[pos[p]]){note='🪜 Up the ladder!';later(()=>{pos[p]=LAD[pos[p]];drawBoard();then(note)},300,timers);return}
+      if(SNK[pos[p]]){note='🐍 Down the snake!';later(()=>{pos[p]=SNK[pos[p]];drawBoard();then(note)},300,timers);return}then(note)}};step()}
+  function rollAnim(done){let n=0;const iv=setInterval(()=>{die.textContent=rnd(1,6);if(++n>8){clearInterval(iv);const d=rnd(1,6);die.textContent=d;done(d)}},70);timers.push(iv)}
+  function win(p){over=true;rollB.disabled=true;qw.innerHTML='';const sc=Math.round(100*correct/Math.max(1,total));if(p===0)GK.best(key,sc);
+    overlay(stage,p===0?`<div class="emo">🏆</div><h2>You win!</h2><p>You beat Robo to square 30, answering <b>${correct} of ${total}</b> questions right.</p>`:`<div class="emo">🤖</div><h2>Robo wins!</h2><p>Robo got there first. You answered ${correct} of ${total} right. Rematch?</p>`,'Play again',start)}
+  function myTurn(){if(over)return;turn=0;$('.turn',root).textContent='Your turn';rollB.disabled=false;msg.textContent='Roll the die!';qw.innerHTML=''}
+  rollB.onclick=()=>{if(turn!==0||over)return;rollB.disabled=true;rollAnim(d=>{const q=mix();msg.innerHTML=`You rolled <b>${d}</b>. Answer right to move ${d}; wrong and you slide back 2.`;
+    qw.innerHTML=`<div class="qbox"><div class="q">${q.q}</div><form class="ans"><input autocomplete="off" autocapitalize="off" placeholder="Your answer" aria-label="Your answer"><button class="btn">Go</button></form><div class="fb" aria-live="polite"></div></div>`;
+    const inp=$('input',qw),fb=$('.fb',qw);inp.focus({preventScroll:true});
+    $('form',qw).onsubmit=e=>{e.preventDefault();if(inp.disabled||!inp.value.trim())return;const r=q.check(inp.value);if(r.bad){fb.className='fb warn';fb.innerHTML=r.msg;return}
+      inp.disabled=true;total++;if(r.ok){correct++;fb.className='fb good';fb.innerHTML=`✓ Correct! Move ${d}.`;toast(stage,`+${d} 🚀`)}else{fb.className='fb bad';fb.innerHTML='✗ Not quite. Slide back 2.<div class="solbox">'+q.sol+'</div>'}
+      later(()=>move(0,r.ok?d:-2,note=>{if(note)toast(stage,note,'#fde047');if(pos[0]>=END)return win(0);later(roboTurn,r.ok?900:2600,timers)}),600,timers)}})};
+  function roboTurn(){if(over)return;turn=1;$('.turn',root).textContent="Robo's turn";qw.innerHTML='';msg.textContent='🤖 Robo rolls…';
+    rollAnim(d=>{const ok=Math.random()<.68;msg.innerHTML=`🤖 Robo rolled <b>${d}</b> and answered… ${ok?'right! ✓':'wrong! ✗ Back 2.'}`;
+      later(()=>move(1,ok?d:-2,note=>{if(note)toast(stage,'Robo: '+note,'#e2e8f0');if(pos[1]>=END)return win(1);later(myTurn,700,timers)}),700,timers)})}
+  function start(){pos=[1,1];over=false;correct=0;total=0;die.textContent='🎲';drawBoard();myTurn()}
+  start();
+  overlay(stage,`<div class="emo">🐍</div><h2>Integer Snakes and Ladders</h2><p>Race Robo to square 30! Roll the die, then answer a question: <b>right</b> and you move, <b>wrong</b> and you slide back 2.</p><p>Ladders 🪜 take you up, snakes 🐍 take you down. Notebook ready for your working!</p>`,"Let's race",()=>{});
+  return()=>{over=true;timers.forEach(t=>{clearTimeout(t);clearInterval(t)})};
+}
+
+gameHub($('#gpick'),$('#gpanel'),{
+  bs:{title:'Coordinate Battleships',emo:'⚓',desc:'Sink the robot’s fleet with (x, y) torpedoes.',cls:'g-blue',run:battleships},
+  bug:{title:"Johnny's Bug Hunt",emo:'🐞',desc:'Squash the wrong lines before they escape!',cls:'g-purple',run:bugHunt},
+  sl:{title:'Snakes and Ladders',emo:'🐍',desc:'Race the robot: answer right to climb.',cls:'g-green',run:snakes}});
+</script></body></html>
