@@ -205,6 +205,24 @@ footer{text-align:center;font-size:.8rem;color:var(--mute);padding:10px 16px 30p
 @keyframes axrise{to{transform:translate(-26px,-190px) scale(1.8);opacity:0}}
 @media(prefers-reduced-motion:reduce){.axo svg,.axo .gl,.axo .eyes{animation:none}}
 
+.lane{touch-action:none}
+.fastb{position:absolute;left:10px;bottom:14px;background:#22d3ee;color:#083344;font-weight:800;font-size:.85rem;padding:3px 10px;border-radius:99px;z-index:4;opacity:0;transform:scale(.6);transition:.15s;pointer-events:none}
+.stage.fast .fastb{opacity:1;transform:none}
+.stage.fast .lane{animation:lanefast .25s linear infinite;box-shadow:inset 0 0 0 3px #22d3ee}
+@keyframes lanefast{to{background-position:0 39px}}
+.tip{display:flex;align-items:center;gap:12px;text-align:left;font-size:.9rem;line-height:1.35;background:linear-gradient(120deg,rgba(34,211,238,.22),rgba(167,139,250,.28));border:1.5px solid rgba(165,243,252,.6);border-radius:16px;padding:10px 14px;max-width:340px;animation:tipin .5s .2s both,tipglow 2s 1s ease-in-out infinite}
+.tip b{color:#a5f3fc}
+.tipf{position:relative;flex:0 0 46px;height:46px;display:grid;place-items:center}
+.tipf em{font-style:normal;font-size:1.7rem;animation:tippress 1.6s ease-in-out infinite;position:relative}
+.tipf i{position:absolute;inset:8px;border-radius:50%;border:2px solid #67e8f9;animation:tipring 1.6s ease-out infinite}
+.tipf i+i{animation-delay:.35s}
+.tipgo{display:inline-block;animation:tipgo .7s linear infinite}
+@keyframes tipin{from{opacity:0;transform:translateY(14px) scale(.9)}to{opacity:1;transform:none}}
+@keyframes tipglow{50%{box-shadow:0 0 18px rgba(103,232,249,.55)}}
+@keyframes tippress{0%,100%{transform:translateY(-5px)}30%,70%{transform:translateY(3px) scale(.92)}}
+@keyframes tipring{0%,25%{transform:scale(.4);opacity:0}35%{opacity:.9}100%{transform:scale(1.7);opacity:0}}
+@keyframes tipgo{0%{transform:translateX(-3px);opacity:.5}100%{transform:translateX(4px);opacity:1}}
+
 :root{--teal:#6d28d9;--teal2:#8b5cf6;--tealbg:#ede9fe;--hd1:#4c1d95;--hd2:#7c3aed}</style>
 </head><body>
 <header><div class="wrap"><h1>S1 Maths<span class="by">Oreste Campagner · Tallinn European School</span></h1>
@@ -527,8 +545,10 @@ const BUG_LEVELS=[
   {name:'Everything!',types:[1,2,3,4,5,6,7,8],speed:38,gap:2.9,lines:12}];
 const bugLevel=n=>n<=BUG_LEVELS.length?BUG_LEVELS[n-1]:{name:'Speed run',types:[1,2,3,4,5,6,7,8],speed:38+(n-5)*6,gap:Math.max(1.4,2.9-(n-5)*.25),lines:12};
 function bugHunt(root,key){
-  root.innerHTML=`<div class="stage"><div class="hud"><span class="hs"></span><span class="lvl lv"></span><span class="pts"></span></div><div class="lane"></div></div>`;
-  const stage=$('.stage',root),lane=$('.lane',root);let items,lives,score,squashed,level,L,done,spawnT,missed,stop=null,run=false;
+  root.innerHTML=`<div class="stage"><div class="hud"><span class="hs"></span><span class="lvl lv"></span><span class="pts"></span></div><div class="lane"></div><div class="fastb">⏩ ×3</div></div>`;
+  const stage=$('.stage',root),lane=$('.lane',root);let fast=false;const setFast=f=>{fast=f&&run;stage.classList.toggle('fast',fast)};
+  lane.addEventListener('pointerdown',e=>{if(!e.target.closest('.bug')){e.preventDefault();setFast(true)}});['pointerup','pointercancel','pointerleave'].forEach(n=>lane.addEventListener(n,()=>setFast(false)));lane.oncontextmenu=e=>e.preventDefault();
+  let items,lives,score,squashed,level,L,done,spawnT,missed,stop=null,run=false;
   const hud=()=>{$('.hs',root).textContent=hearts(lives);$('.pts',root).textContent=`⭐ ${score}`;$('.lv',root).textContent=`Level ${level} · ${Math.min(done,L.lines)}/${L.lines}`};
   function lose(msg){lives--;stage.classList.add('shake');setTimeout(()=>stage.classList.remove('shake'),300);toast(stage,msg,'#f87171');hud();if(lives<=0)end()}
   function resolved(){done++;hud();if(run&&done>=L.lines&&items.every(it=>it.done))levelUp()}
@@ -539,17 +559,17 @@ function bugHunt(root,key){
       else{d.classList.add('oops');later(()=>d.remove(),400);lose('That one was right!');if(run)resolved()}};
     items.push(it);spawned++}
   let spawned=0,deck=[];
-  function tick(dt){if(!run)return;spawnT-=dt;if(spawnT<=0&&spawned<L.lines){spawn();spawnT=L.gap}
+  function tick(dt){if(!run)return;if(fast)dt*=3;spawnT-=dt;if(spawnT<=0&&spawned<L.lines){spawn();spawnT=L.gap}
     const H=lane.clientHeight;for(const it of items){if(it.done)continue;it.y+=L.speed*dt;it.d.style.top=it.y+'px';
-      if(it.y>H-40){it.done=true;it.d.remove();if(it.L.bug){missed.push(it.L);lose('A bug escaped! 🐛')}else{score+=1;hud()}if(!run)return;resolved();if(!run)return}}
+      if(it.y>H-40){it.done=true;it.d.remove();if(it.L.bug){missed.push(it.L);lose('A bug escaped! 🐛')}else{score+=fast?2:1;if(fast)toast(stage,'+2 ⏩','#a5f3fc');hud()}if(!run)return;resolved();if(!run)return}}
     items=items.filter(it=>!it.done||it.d.isConnected)}
   function play(){const nb=Math.round(L.lines*.4)+rnd(-1,0);deck=shuffle(Array.from({length:L.lines},(_,i)=>i<nb));lane.innerHTML='';items=[];done=0;spawned=0;spawnT=.5;run=true;hud();stop&&stop();stop=loop(tick)}
   function intro(){L=bugLevel(level);hud();
-    overlay(stage,`<div class="emo">${level===1?'🐞':'⚡'}</div><h2>Level ${level}</h2><p><b>${L.name}</b></p><p>Tap the <b>wrong</b> lines. Leave the right ones.</p>`,'Go!',play)}
-  function levelUp(){run=false;stop&&stop();const bonus=lives<3;if(bonus)lives++;score+=20*level;hud();
+    overlay(stage,`<div class="emo">${level===1?'🐞':'⚡'}</div><h2>Level ${level}</h2><p><b>${L.name}</b></p><p>Tap the <b>wrong</b> lines. Leave the right ones.</p><div class="tip"><span class="tipf"><i></i><i></i><em>👆</em></span><span>Too slow? <b>Hold the background</b><br>to go faster <span class="tipgo">⏩⏩</span> and win bonus points!</span></div>`,'Go!',play)}
+  function levelUp(){run=false;setFast(false);stop&&stop();const bonus=lives<3;if(bonus)lives++;score+=20*level;hud();
     overlay(stage,`<div class="emo">🏆</div><h2>Level ${level} done!</h2><p>+${20*level} bonus points${bonus?' and an extra ❤️':''}</p>`,'Next level',()=>{level++;intro()})}
   function start(){lives=3;score=0;squashed=0;level=1;missed=[];intro()}
-  function end(){run=false;stop&&stop();const b=GK.best(key,score);
+  function end(){run=false;setFast(false);stop&&stop();const b=GK.best(key,score);
     const ml=missed.slice(-4).map(m=>`<li><s>${m.text}</s> → <b>${m.fix}</b></li>`).join('');
     overlay(stage,`<div class="emo">🐞</div><h2>Game over</h2><p>You reached <b>level ${level}</b> and squashed <b>${squashed}</b> bugs.</p><p>Score <b>${score}</b> · Best ${b}</p>${ml?`<p style="margin-top:6px">Bugs that escaped, fixed:</p><ul>${ml}</ul>`:''}`,'Play again',start)}
   lives=3;score=0;level=1;done=0;L=bugLevel(1);hud();
