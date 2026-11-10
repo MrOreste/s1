@@ -272,9 +272,10 @@ function quiz(el,makeList,intro){
 }
 </script>
 <script>
-const SHEETS={w10:[
- ['S1_Zero-and-one_L38.pdf','Zero and one','Lesson 38 · why 0 and 1 are special, and why we cannot divide by 0','S1B']]};
-$('#w10').innerHTML=Object.values(SHEETS).flat().sort((a,b)=>a[1].localeCompare(b[1])).map(([id,t,s,tag])=>`<div class="sheet"><div class="ico">PDF</div><div class="name"><b>${t}${tag?` <span class="tag">${tag}</span>`:''}</b></div><a class="btn ghost" href="sheets/${id}" target="_blank" rel="noopener">Open</a></div>`).join('');
+const SHEETS=[
+ [10,'S1_Zero-and-one_L38.pdf','Zero and one','S1B']];
+const weeks=[...new Set(SHEETS.map(x=>x[0]))].sort((a,b)=>b-a);
+$('#w10').innerHTML=weeks.map(w=>`<h3>Week ${w}</h3>`+SHEETS.filter(x=>x[0]===w).sort((a,b)=>a[2].localeCompare(b[2])).map(([,id,t,tag])=>`<div class="sheet"><div class="ico">PDF</div><div class="name"><b>${t}${tag?` <span class="tag">${tag}</span>`:''}</b></div><a class="btn ghost" href="sheets/${id}" target="_blank" rel="noopener">Open</a></div>`).join('')).join('');
 
 /* ---------- BIDMAS ---------- */
 const T={
