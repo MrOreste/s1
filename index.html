@@ -18,6 +18,7 @@ nav a{color:#fff;text-decoration:none;padding:10px 14px;border-radius:12px 12px 
 nav a.on{background:var(--bg);color:var(--teal);opacity:1;font-weight:600}
 main{padding:16px}
 .banner{background:var(--amberbg);border-left:5px solid var(--amber2);padding:10px 14px;border-radius:10px;margin-bottom:16px;font-size:.95rem}
+.banner a{color:var(--teal);font-weight:600}
 .card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin-bottom:16px}
 h2{color:var(--teal);font-size:1.25rem;margin:.1rem 0 .5rem}
 h3{font-size:.8rem;margin:1rem 0 .3rem;color:var(--mute);text-transform:uppercase;letter-spacing:.07em}
@@ -159,13 +160,14 @@ footer{text-align:center;font-size:.8rem;color:var(--mute);padding:10px 16px 30p
 .pz .cuts button.on{background:#ea580c;color:#fff;border-color:#ea580c}
 .pz .serve{background:#16a34a;box-shadow:0 3px 0 #166534}
 
-:root{--teal:#1d4ed8;--teal2:#3b82f6;--tealbg:#e0e7ff;--hd1:#1e3a8a;--hd2:#2563eb}</style>
+:root{--teal:#6d28d9;--teal2:#8b5cf6;--tealbg:#ede9fe;--hd1:#4c1d95;--hd2:#7c3aed}</style>
 </head><body>
-<header><div class="wrap"><h1>S1 Maths<span class="by">with Mr Oreste</span></h1>
+<header><div class="wrap"><h1>S1 Maths<span class="by">Oreste Campagner · Tallinn European School</span></h1>
 <nav><a href="#sheets">Sheets</a><a href="#practice">Practice</a><a href="#games">Games</a><a href="#test">Test prep</a></nav></div></header>
 <main class="wrap">
 
 <section id="sheets" class="view">
+  <div class="banner"><b>Week 11:</b> coordinates and revision. <b>Test on Friday 13 November!</b> Get ready in <a href="#test">Test prep</a>.</div>
   <div class="card"><h2>Worksheets</h2>
     <div id="w10"></div>
   </div>
@@ -184,7 +186,7 @@ footer{text-align:center;font-size:.8rem;color:var(--mute);padding:10px 16px 30p
   <div class="card"><h2>Ready check</h2><div id="quiz"></div></div>
 </section>
 </main>
-<footer>S1 Maths with Mr Oreste · No login needed.</footer>
+<footer>S1 Maths with Mr Oreste</footer>
 <script>const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
 const rnd=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
 const rndNZ=(a,b)=>{let x;do{x=rnd(a,b)}while(x===0);return x};
@@ -311,7 +313,7 @@ function numberLine(pts,arc){const W=640,pad=22,min=-12,max=12,x=v=>pad+(v-min)*
  if(arc){const[a,b]=arc,x1=x(a),x2=x(b),m=(x1+x2)/2;s+=`<path d="M${x1} 62 Q${m} ${62-2*Math.min(38,Math.abs(x2-x1)/2)} ${x2} 62" fill="none" stroke="#f59e0b" stroke-width="3"/><text x="${m}" y="${62-Math.min(38,Math.abs(x2-x1)/2)-6}" text-anchor="middle" font-size="15" font-weight="700" fill="#b45309" font-family="Lexend,sans-serif">${Math.abs(b-a)}</text>`}
  s+=`<line x1="${pad-12}" y1="70" x2="${W-pad+12}" y2="70" stroke="#374151" stroke-width="2"/>`;
  for(let v=min;v<=max;v++){const big=v%5===0;s+=`<line x1="${x(v)}" y1="${big?62:65}" x2="${x(v)}" y2="${big?78:75}" stroke="#374151" stroke-width="${v===0?2.5:1}"/>`;if(v%2===0)s+=`<text x="${x(v)}" y="96" text-anchor="middle" font-size="13" fill="${v===0?'#1f2937':'#6b7280'}" font-weight="${v===0?700:400}" font-family="Lexend,sans-serif">${fmt(v)}</text>`}
- pts.forEach(p=>{s+=`<circle cx="${x(p)}" cy="70" r="7" fill="#1d4ed8"/>`});return s+'</svg>'}
+ pts.forEach(p=>{s+=`<circle cx="${x(p)}" cy="70" r="7" fill="#6d28d9"/>`});return s+'</svg>'}
 const absval=()=>{const k=rnd(1,4);
  if(k===1){const a=rndNZ(-12,12);return{topic:'Absolute value',q:`<div class="expr">|${fmt(a)}| = ?</div>`,check:numCheck(Math.abs(a),n=>n<0?'A distance is never negative.':''),sol:numberLine([a],[0,a])+`<p>${fmt(a)} is ${Math.abs(a)} steps from 0, so |${fmt(a)}| = <b>${Math.abs(a)}</b>.</p>`}}
  if(k===2){const a=rndNZ(-9,9),b=rndNZ(-9,9),o=pick(['+','−']),v=o==='+'?Math.abs(a)+Math.abs(b):Math.abs(a)-Math.abs(b);const e=`|${fmt(a)}| ${o} |${fmt(b)}|`;return{topic:'Absolute value',q:`<div class="expr">${e}</div>`,check:numCheck(v),sol:`<div class="steps"><div>${e}</div><div>= ${Math.abs(a)} ${o} ${Math.abs(b)}</div><div><b>= ${fmt(v)}</b></div></div><p class="small">Find each absolute value first.</p>`}}
@@ -355,7 +357,7 @@ function grid(pts){let s=`<svg viewBox="0 0 ${S} ${S}" role="img" aria-label="co
  s+=`<text x="${GX(N)+10}" y="${GY(0)+4}" font-size="13" font-style="italic" fill="#374151">x</text><text x="${GX(0)+6}" y="${GY(N)-6}" font-size="13" font-style="italic" fill="#374151">y</text>`;
  for(let i=-N;i<=N;i++){if(!i)continue;s+=`<text x="${GX(i)}" y="${GY(0)+14}" text-anchor="middle" font-size="10" fill="#6b7280">${fmt(i)}</text><text x="${GX(0)-5}" y="${GY(i)+3.5}" text-anchor="end" font-size="10" fill="#6b7280">${fmt(i)}</text>`}
  s+=`<text x="${GX(0)-5}" y="${GY(0)+14}" text-anchor="end" font-size="10" fill="#6b7280">0</text>`;
- pts.forEach(p=>{s+=`<circle cx="${GX(p.x)}" cy="${GY(p.y)}" r="6" fill="${p.c||'#1d4ed8'}"/>`;if(p.l)s+=`<text x="${GX(p.x)+8}" y="${GY(p.y)-8}" font-size="15" font-weight="700" fill="${p.c||'#1d4ed8'}" font-family="Lexend,sans-serif">${p.l}</text>`});return s+'</svg>'}
+ pts.forEach(p=>{s+=`<circle cx="${GX(p.x)}" cy="${GY(p.y)}" r="6" fill="${p.c||'#6d28d9'}"/>`;if(p.l)s+=`<text x="${GX(p.x)+8}" y="${GY(p.y)-8}" font-size="15" font-weight="700" fill="${p.c||'#6d28d9'}" font-family="Lexend,sans-serif">${p.l}</text>`});return s+'</svg>'}
 const quadName=(x,y)=>!x||!y?(!x&&!y?'the origin':!x?'on the y-axis':'on the x-axis'):x>0&&y>0?'the first quadrant':x<0&&y>0?'the second quadrant':x<0?'the third quadrant':'the fourth quadrant';
 const walk=(x,y)=>`${x?`${Math.abs(x)} ${x>0?'right':'left'}`:'0 along'}, then ${y?`${Math.abs(y)} ${y>0?'up':'down'}`:'0 up or down'}`;
 const parsePt=s=>{const m=String(s).replace(/[−–]/g,'-').replace(/\s/g,'').match(/^\(?(-?\d+)[,;](-?\d+)\)?$/);return m?[+m[1],+m[2]]:null};
