@@ -232,7 +232,7 @@ footer{text-align:center;font-size:.8rem;color:var(--mute);padding:10px 16px 30p
 <section id="sheets" class="view">
   <div class="banner"><b>Week 11:</b> coordinates and revision. <b>Test on Friday 13 November!</b> Get ready in <a href="#test">Test prep</a>.</div>
   <div class="card"><h2>Worksheets</h2>
-    <div id="w10"></div>
+    <div id="wsheets"></div>
   </div>
 </section>
 
@@ -337,10 +337,15 @@ function quiz(el,makeList,intro){
 }
 </script>
 <script>
+/* [week, lesson(s), file, title, class tag ('' = both classes)] — newest lesson shows first */
 const SHEETS=[
- [10,'S1_Zero-and-one_L38.pdf','Zero and one','S1B']];
+ [11,'40–41','S1_Plotting-points_L40-L41.pdf','Plotting points',''],
+ [11,'40–41','S1_Plotting-points-answers_L40-L41.pdf','Plotting points: answers',''],
+ [10,'38','S1_BIDMAS_L38.pdf','Order of operations: BIDMAS',''],
+ [10,'38','S1_Zero-and-one_L38.pdf','Zero and one','S1B']];
+const lastL=l=>Math.max(...String(l).split(/[–-]/).map(Number));
 const weeks=[...new Set(SHEETS.map(x=>x[0]))].sort((a,b)=>b-a);
-$('#w10').innerHTML=weeks.map(w=>`<h3>Week ${w}</h3>`+SHEETS.filter(x=>x[0]===w).sort((a,b)=>a[2].localeCompare(b[2])).map(([,id,t,tag])=>`<div class="sheet"><div class="ico">PDF</div><div class="name"><b>${t}${tag?` <span class="tag">${tag}</span>`:''}</b></div><a class="btn ghost" href="sheets/${id}" target="_blank" rel="noopener">Open</a></div>`).join('')).join('');
+$('#wsheets').innerHTML=weeks.map(w=>`<h3>Week ${w}</h3>`+SHEETS.map((x,i)=>[x,i]).filter(([x])=>x[0]===w).sort(([a,i],[b,j])=>lastL(b[1])-lastL(a[1])||i-j).map(([[,l,id,t,tag]])=>`<div class="sheet"><div class="ico">PDF</div><div class="name"><b>${t}${tag?` <span class="tag">${tag}</span>`:''}</b><span>Lesson ${l}</span></div><a class="btn ghost" href="sheets/${id}" target="_blank" rel="noopener">Open</a></div>`).join('')).join('');
 
 /* ---------- BIDMAS ---------- */
 const T={
