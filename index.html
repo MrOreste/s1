@@ -35,6 +35,7 @@ p{margin:.4rem 0}
 .btn:hover{filter:brightness(1.08)}
 .btn.ghost{background:#fff;color:var(--teal);border:1.5px solid var(--teal)}
 .btn.amber{background:#fff;color:var(--amber);border:1.5px solid var(--amber2)}
+.acts{display:flex;gap:6px}
 .btn:disabled{opacity:.5;cursor:default}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin:.3rem 0 1rem}
 .chip{font:inherit;font-size:.88rem;border:1.5px solid var(--line);background:#fff;border-radius:99px;padding:6px 12px;cursor:pointer;color:var(--ink)}
@@ -231,7 +232,7 @@ footer{text-align:center;font-size:.8rem;color:var(--mute);padding:10px 16px 30p
 
 <section id="sheets" class="view">
   <div class="banner"><b>Week 11:</b> coordinates and revision. <b>Test on Friday 13 November!</b> Get ready in <a href="#test">Test prep</a>.</div>
-  <div class="card"><h2>Worksheets</h2>
+  <div class="card"><h2>Worksheets</h2><p class="small">Try the sheet first, then check the answers.</p>
     <div id="wsheets"></div>
   </div>
 </section>
@@ -337,15 +338,14 @@ function quiz(el,makeList,intro){
 }
 </script>
 <script>
-/* [week, lesson(s), file, title, class tag ('' = both classes)] — newest lesson shows first */
+/* [week, lesson(s), topic, sheet file, answers file ('' = none), class tag ('' = both classes)] — newest lesson shows first */
 const SHEETS=[
- [11,'40–41','S1_Plotting-points_L40-L41.pdf','Plotting points',''],
- [11,'40–41','S1_Plotting-points-answers_L40-L41.pdf','Plotting points: answers',''],
- [10,'38','S1_BIDMAS_L38.pdf','Order of operations: BIDMAS',''],
- [10,'38','S1_Zero-and-one_L38.pdf','Zero and one','S1B']];
-const lastL=l=>Math.max(...String(l).split(/[–-]/).map(Number));
+ [11,'40-41','Plotting points','S1_Plotting-points_L40-L41.pdf','S1_Plotting-points_answers_L40-L41.pdf',''],
+ [10,'38','Order of operations: BIDMAS','S1_BIDMAS_L38.pdf','',''],
+ [10,'38','Zero and one','S1_Zero-and-one_L38.pdf','','S1B']];
+const lastL=l=>Math.max(...String(l).split('-').map(Number));
 const weeks=[...new Set(SHEETS.map(x=>x[0]))].sort((a,b)=>b-a);
-$('#wsheets').innerHTML=weeks.map(w=>`<h3>Week ${w}</h3>`+SHEETS.map((x,i)=>[x,i]).filter(([x])=>x[0]===w).sort(([a,i],[b,j])=>lastL(b[1])-lastL(a[1])||i-j).map(([[,l,id,t,tag]])=>`<div class="sheet"><div class="ico">PDF</div><div class="name"><b>${t}${tag?` <span class="tag">${tag}</span>`:''}</b><span>Lesson ${l}</span></div><a class="btn ghost" href="sheets/${id}" target="_blank" rel="noopener">Open</a></div>`).join('')).join('');
+$('#wsheets').innerHTML=weeks.map(w=>`<h3>Week ${w}</h3>`+SHEETS.map((x,i)=>[x,i]).filter(([x])=>x[0]===w).sort(([a,i],[b,j])=>lastL(b[1])-lastL(a[1])||i-j).map(([[,,t,id,ans,tag]])=>`<div class="sheet"><div class="ico">PDF</div><div class="name"><b>${t}${tag?` <span class="tag">${tag}</span>`:''}</b></div><div class="acts"><a class="btn ghost" href="sheets/${id}" target="_blank" rel="noopener">Sheet</a>${ans?`<a class="btn amber" href="sheets/${ans}" target="_blank" rel="noopener">Answers</a>`:''}</div></div>`).join('')).join('');
 
 /* ---------- BIDMAS ---------- */
 const T={
