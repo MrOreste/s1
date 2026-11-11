@@ -342,7 +342,7 @@ function quiz(el,makeList,intro){
 const SHEETS=[
  [11,'40-41','Plotting points','S1_Plotting-points_L40-L41.pdf','S1_Plotting-points_answers_L40-L41.pdf',''],
  [10,'38','Order of operations: BIDMAS','S1_BIDMAS_L38.pdf','',''],
- [10,'38','Zero and one','S1_Zero-and-one_L38.pdf','','S1B']];
+ [10,'39','Zero and one','S1_Zero-and-one_L39.pdf','S1_Zero-and-one_answers_L39.pdf','']];
 const lastL=l=>Math.max(...String(l).split('-').map(Number));
 const weeks=[...new Set(SHEETS.map(x=>x[0]))].sort((a,b)=>b-a);
 $('#wsheets').innerHTML=weeks.map(w=>`<h3>Week ${w}</h3>`+SHEETS.map((x,i)=>[x,i]).filter(([x])=>x[0]===w).sort(([a,i],[b,j])=>lastL(b[1])-lastL(a[1])||i-j).map(([[,,t,id,ans,tag]])=>`<div class="sheet"><div class="ico">PDF</div><div class="name"><b>${t}${tag?` <span class="tag">${tag}</span>`:''}</b></div><div class="acts"><a class="btn ghost" href="sheets/${id}" target="_blank" rel="noopener">Sheet</a>${ans?`<a class="btn amber" href="sheets/${ans}" target="_blank" rel="noopener">Answers</a>`:''}</div></div>`).join('')).join('');
