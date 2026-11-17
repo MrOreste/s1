@@ -796,9 +796,9 @@ function sweetJar(root,key){
   function nextBtn(over){msg.insertAdjacentHTML('beforeend',`<div class="nx"><button type="button" class="btn nextb">${over?'See my score':'Next jar →'}</button></div>`);const b=$('.nextb',msg);b.focus({preventScroll:true});b.onclick=()=>over?end():newJar()}
   function tick(dt){if(!run||busy)return;t-=dt;$('.tbar i',root).style.width=Math.max(0,t/T*100)+'%';if(t<=0)submit(true)}
   function start(){lives=3;score=0;level=1;cleared=0;run=true;hud();newJar();stop&&stop();stop=loop(tick)}
-  function end(){run=false;stop&&stop();const b=GK.best(key,score);overlay(stage,`<div class="emo">🍬</div><h2>Out of hearts!</h2><p>You shared <b>${cleared}</b> jars. Score <b>${score}</b> · Best ${b}</p><p class="small">Tip: for 3, add up the digits.</p>`,'Play again',start)}
+  function end(){run=false;stop&&stop();const b=GK.best(key,score);overlay(stage,`<div class="emo">🍬</div><h2>Out of hearts!</h2><p>You shared <b>${cleared}</b> jars. Score <b>${score}</b> · Best ${b}</p><p class="small">Tip: for 3, add up the digits.</p><p class="small">🚧 New levels coming soon!</p>`,'Play again',start)}
   lives=3;score=0;level=1;hud();N=2574;sel=new Set();busy=true;drawJar();goLabel();
-  overlay(stage,`<div class="emo">🍬</div><h2>Sweet Jar Share</h2><p>Which groups of friends can share the sweets <b>fairly</b>, with nothing left over?</p><p>Pick all the groups, then press <b>Share!</b> Be quick: no time for long division!</p>`,'Start',start);
+  overlay(stage,`<div class="emo">🍬</div><h2>Sweet Jar Share</h2><p>Which groups of friends can share the sweets <b>fairly</b>, with nothing left over?</p><p>Pick all the groups, then press <b>Share!</b> Be quick: no time for long division!</p><p class="small">🚧 New levels coming soon!</p>`,'Start',start);
   return()=>{run=false;stop&&stop();timers.forEach(clearTimeout)};
 }
 
