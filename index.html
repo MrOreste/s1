@@ -248,6 +248,8 @@ footer{text-align:center;font-size:.8rem;color:var(--mute);padding:10px 16px 30p
 .sj .sjgo{text-align:center;padding:2px 0 4px}
 .sj .sjbtn{background:#db2777;font-size:1.05rem;padding:10px 24px;box-shadow:0 3px 0 #9d174d}
 .sj .sjbtn[disabled]{opacity:.5}
+.sj .nx,.fj .nx{margin-top:8px}
+.sj .nextb{background:#db2777;box-shadow:0 3px 0 #9d174d;font-size:1.05rem;padding:10px 24px}
 .sj .sjmsg{text-align:center;min-height:3.2em;padding:4px 14px 14px;font-size:.95rem}
 .sj .sjmsg .r{color:var(--mute);font-size:.85rem}
 :root{--teal:#6d28d9;--teal2:#8b5cf6;--tealbg:#ede9fe;--hd1:#4c1d95;--hd2:#7c3aed}</style>
@@ -765,7 +767,7 @@ function sweetJar(root,key){
     if(d===3)return`${s.split('').join('+')} = ${dsum(N)} ${ok?'✓':'✗'}`;
     return`ends in ${s[s.length-1]} ${ok?'✓':'✗'}`};
   const hud=()=>{$('.hs',root).textContent=hearts(lives);$('.pts',root).textContent=`🍬 ${score}`;$('.lv',root).textContent=`Level ${level}`};
-  const goLabel=()=>{go.textContent=sel.size?'🍬 Share!':'🙅 Nobody can share';go.disabled=busy||!run};
+  const goLabel=()=>{go.textContent=sel.size?'🍬 Share!':'🙅 Nobody can share';go.disabled=busy||!run;go.hidden=busy&&run};
   function drawJar(){let s=`<path d="M60 18 h80 v18 q30 12 30 50 v80 q0 18 -18 18 h-104 q-18 0 -18 -18 v-80 q0 -38 30 -50z" fill="rgba(255,255,255,.55)" stroke="#be185d" stroke-width="3"/><rect x="54" y="8" width="92" height="14" rx="5" fill="#be185d"/>`;
     const k=Math.min(46,10+Math.floor(Math.log10(N)*8));for(let i=0;i<k;i++){const x=48+((i*37)%104),y=176-Math.floor(i/8)*15-((i*13)%7);s+=`<circle cx="${x}" cy="${y}" r="7" fill="${COLS[i%COLS.length]}"/>`}
     $('svg',root).innerHTML=s;$('.lab',root).textContent=fmt(N)}
@@ -790,7 +792,8 @@ function sweetJar(root,key){
       if(cleared%5===0&&level<LV.length-1){level++;later(()=>toast(stage,`Level ${level}!${level===2?' Now groups of 3 too':' Bigger jars!'}`,'#7c3aed'),900,timers)}}
     else{lives--;stage.classList.add('shake');later(()=>stage.classList.remove('shake'),300,timers);}
     msg.innerHTML=`${perfect?'':timeout?'Time! ':wrong?'Not fair! ':'Not all of them! '}<div class="r">${rules}</div>`;
-    hud();if(lives<=0)return later(end,2200,timers);later(newJar,perfect?1800:3800,timers)}
+    hud();nextBtn(lives<=0)}
+  function nextBtn(over){msg.insertAdjacentHTML('beforeend',`<div class="nx"><button type="button" class="btn nextb">${over?'See my score':'Next jar →'}</button></div>`);const b=$('.nextb',msg);b.focus({preventScroll:true});b.onclick=()=>over?end():newJar()}
   function tick(dt){if(!run||busy)return;t-=dt;$('.tbar i',root).style.width=Math.max(0,t/T*100)+'%';if(t<=0)submit(true)}
   function start(){lives=3;score=0;level=1;cleared=0;run=true;hud();newJar();stop&&stop();stop=loop(tick)}
   function end(){run=false;stop&&stop();const b=GK.best(key,score);overlay(stage,`<div class="emo">🍬</div><h2>Out of hearts!</h2><p>You shared <b>${cleared}</b> jars. Score <b>${score}</b> · Best ${b}</p><p class="small">Tip: for 3, add up the digits.</p>`,'Play again',start)}
