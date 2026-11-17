@@ -242,6 +242,12 @@ footer{text-align:center;font-size:.8rem;color:var(--mute);padding:10px 16px 30p
 .sj .grp.no{background:#fee2e2;border-color:#ef4444;box-shadow:0 3px 0 #ef4444}
 .sj .grp.miss{border-style:dashed;border-color:#16a34a}
 .sj .grp[disabled]{cursor:default}
+.sj .grp.sel{background:#fce7f3;border-color:#db2777;box-shadow:0 3px 0 #db2777}
+.sj .grp em{display:block;font-style:normal;font-size:.72rem;font-weight:700;min-height:1em}
+.sj .grp.ok em{color:#15803d}.sj .grp.no em{color:#b91c1c}.sj .grp.miss em{color:#15803d}
+.sj .sjgo{text-align:center;padding:2px 0 4px}
+.sj .sjbtn{background:#db2777;font-size:1.05rem;padding:10px 24px;box-shadow:0 3px 0 #9d174d}
+.sj .sjbtn[disabled]{opacity:.5}
 .sj .sjmsg{text-align:center;min-height:3.2em;padding:4px 14px 14px;font-size:.95rem}
 .sj .sjmsg .r{color:var(--mute);font-size:.85rem}
 :root{--teal:#6d28d9;--teal2:#8b5cf6;--tealbg:#ede9fe;--hd1:#4c1d95;--hd2:#7c3aed}</style>
@@ -742,51 +748,54 @@ function bubblePop(root,key){
 }
 
 /* ================= SWEET JAR SHARE ================= */
-/* Levels follow what has been taught: 2, 5, 10, then 3 (digit sum). Add 9, 4, 11 and "lonely jars" (primes) later. */
+/* Pick ALL groups that can share, then press Share! (no auto-finish, so no answering by elimination).
+   Levels follow what has been taught: 2, 5, 10, then 3 (digit sum). Add 9, 4, 11 and "lonely jars" (primes) later. */
 function sweetJar(root,key){
-  const LV=[null,{ds:[2,5,10],dig:[2,3],T:16},{ds:[2,3,5,10],dig:[3,3],T:16},{ds:[2,3,5,10],dig:[3,4],T:14},{ds:[2,3,5,10],dig:[4,6],T:12}];
+  const LV=[null,{ds:[2,5,10],dig:[2,3],T:18},{ds:[2,3,5,10],dig:[3,3],T:20},{ds:[2,3,5,10],dig:[3,4],T:18},{ds:[2,3,5,10],dig:[4,6],T:16}];
   const COLS=['#f43f5e','#f59e0b','#22c55e','#3b82f6','#a855f7','#ec4899','#14b8a6'];
   root.innerHTML=`<div class="stage sj"><div class="hud"><span class="hs"></span><span class="lvl lv"></span><span class="pts"></span></div><div class="tbar"><i></i></div>
-   <div class="sjq">Which groups of friends can share this jar <b>fairly</b>?<br><span class="small">Tap every group that works. Nothing can be left over!</span></div>
+   <div class="sjq">Which groups of friends can share this jar <b>fairly</b>?<br><span class="small">Pick <b>all</b> the groups that work, then press Share!</span></div>
    <div class="jar"><svg viewBox="0 0 200 190" aria-hidden="true"></svg><div class="lab"></div></div>
-   <div class="grps"></div><div class="sjmsg" aria-live="polite"></div></div>`;
-  const stage=$('.stage',root),grps=$('.grps',root),msg=$('.sjmsg',root);
-  let lives,score,level,cleared,N,good,found,t,T,run=false,stop=null,busy,timers=[];
+   <div class="grps"></div><div class="sjgo"><button type="button" class="btn sjbtn"></button></div><div class="sjmsg" aria-live="polite"></div></div>`;
+  const stage=$('.stage',root),grps=$('.grps',root),msg=$('.sjmsg',root),go=$('.sjbtn',root);
+  let lives,score,level,cleared,N,good,sel,t,T,run=false,stop=null,busy,timers=[];
   const fmt=n=>n>=10000?String(n).replace(/\B(?=(\d{3})+(?!\d))/g,' '):String(n);
   const dsum=n=>String(n).split('').reduce((a,c)=>a+ +c,0);
-  const why=(d,ok)=>{const s=String(N),last=s[s.length-1];
-    if(d===3)return`${s.split('').join(' + ')} = ${dsum(N)} ${ok?'✓ in the 3 times table':'✗ not in the 3 times table'}`;
-    return`ends in ${last} ${ok?'✓':'✗'}`};
+  const why=d=>{const s=String(N),ok=N%d===0;
+    if(d===3)return`${s.split('').join('+')} = ${dsum(N)} ${ok?'✓':'✗'}`;
+    return`ends in ${s[s.length-1]} ${ok?'✓':'✗'}`};
   const hud=()=>{$('.hs',root).textContent=hearts(lives);$('.pts',root).textContent=`🍬 ${score}`;$('.lv',root).textContent=`Level ${level}`};
+  const goLabel=()=>{go.textContent=sel.size?'🍬 Share!':'🙅 Nobody can share';go.disabled=busy||!run};
   function drawJar(){let s=`<path d="M60 18 h80 v18 q30 12 30 50 v80 q0 18 -18 18 h-104 q-18 0 -18 -18 v-80 q0 -38 30 -50z" fill="rgba(255,255,255,.55)" stroke="#be185d" stroke-width="3"/><rect x="54" y="8" width="92" height="14" rx="5" fill="#be185d"/>`;
     const k=Math.min(46,10+Math.floor(Math.log10(N)*8));for(let i=0;i<k;i++){const x=48+((i*37)%104),y=176-Math.floor(i/8)*15-((i*13)%7);s+=`<circle cx="${x}" cy="${y}" r="7" fill="${COLS[i%COLS.length]}"/>`}
     $('svg',root).innerHTML=s;$('.lab',root).textContent=fmt(N)}
   function newJar(){busy=false;const L=LV[level],d=rnd(L.dig[0],L.dig[1]);const lo=10**(d-1),hi=10**d-1;
     do{N=rnd(lo,hi);const r=Math.random();
-      if(r<.55){const dv=pick(L.ds);N-=N%dv;}
+      if(r<.55){const dv=pick(L.ds);N-=N%dv}
       else if(r<.7){const dv=pick(L.ds.filter(x=>x!==10));N-=N%(dv*2);if(dv===5)N+=5}
     }while(N<lo||N<4);
-    good=L.ds.filter(x=>N%x===0);found=new Set();T=L.T;t=T;drawJar();
-    grps.innerHTML=L.ds.map(x=>`<button type="button" class="grp" data-d="${x}"><b>${x}</b><span>friends</span></button>`).join('')+`<button type="button" class="grp" data-d="0"><b>🙅</b><span>nobody can</span></button>`;
-    msg.innerHTML='';}
-  function finish(ok){busy=true;const L=LV[level];
-    $$('.grp',grps).forEach(b=>{const d=+b.dataset.d;b.disabled=true;if(d&&good.includes(d)&&!found.has(d))b.classList.add('miss')});
-    if(ok){cleared++;const bonus=Math.ceil(t)*level;score+=bonus;toast(stage,`Jar shared! +${bonus}`,'#be185d');
-      if(cleared%5===0&&level<LV.length-1){level++;later(()=>toast(stage,`Level ${level}!${level===2?' Now groups of 3 too':level>=3?' Bigger jars!':''}`,'#7c3aed'),900,timers)}}
-    hud();if(lives<=0)return later(end,1400,timers);later(newJar,ok?1300:3200,timers)}
-  grps.onclick=e=>{const b=e.target.closest('.grp');if(!b||busy||!run||b.disabled)return;const d=+b.dataset.d;
-    if(d===0){if(!good.length){b.classList.add('ok');msg.innerHTML=`Right! No group can share ${fmt(N)} fairly.<div class="r">${LV[level].ds.map(x=>`${x}: ${why(x,false)}`).join(' · ')}</div>`;score+=10*level;finish(true)}
-      else{lives--;b.classList.add('no');stage.classList.add('shake');later(()=>stage.classList.remove('shake'),300,timers);msg.innerHTML=`Someone can share it! Look again.`;hud();if(lives<=0)finish(false)}return}
-    if(N%d===0){found.add(d);b.classList.add('ok');b.disabled=true;score+=10*level;msg.innerHTML=`${fmt(N)} ÷ ${d} = <b>${fmt(N/d)}</b> sweets each<div class="r">${why(d,true)}</div>`;hud();
-      if(found.size===good.length)finish(true)}
-    else{lives--;b.classList.add('no');b.disabled=true;stage.classList.add('shake');later(()=>stage.classList.remove('shake'),300,timers);
-      msg.innerHTML=`Not fair! <b>${N%d}</b> sweet${N%d>1?'s':''} left over.<div class="r">${why(d,false)}</div>`;hud();if(lives<=0)finish(false)}};
-  function tick(dt){if(!run||busy)return;t-=dt;$('.tbar i',root).style.width=Math.max(0,t/T*100)+'%';
-    if(t<=0){lives--;const miss=good.filter(x=>!found.has(x));msg.innerHTML=miss.length?`Time! You missed: ${miss.map(x=>`<b>${x}</b> (${why(x,true)})`).join(', ')}`:'Time!';finish(false)}}
+    good=L.ds.filter(x=>N%x===0);sel=new Set();T=L.T;t=T;drawJar();
+    grps.innerHTML=L.ds.map(x=>`<button type="button" class="grp" data-d="${x}" aria-pressed="false"><b>${x}</b><span>friends</span><em></em></button>`).join('');
+    msg.innerHTML='';goLabel()}
+  grps.onclick=e=>{const b=e.target.closest('.grp');if(!b||busy||!run)return;const d=+b.dataset.d;
+    sel.has(d)?sel.delete(d):sel.add(d);b.classList.toggle('sel',sel.has(d));b.setAttribute('aria-pressed',sel.has(d));goLabel()};
+  go.onclick=()=>{if(!busy&&run)submit(false)};
+  function submit(timeout){busy=true;goLabel();const L=LV[level];let right=0,wrong=0,miss=0;
+    $$('.grp',grps).forEach(b=>{const d=+b.dataset.d,ok=N%d===0,s=sel.has(d);b.disabled=true;b.classList.remove('sel');
+      if(s&&ok){right++;b.classList.add('ok');$('em',b).textContent=`${fmt(N/d)} each`}
+      else if(s&&!ok){wrong++;b.classList.add('no');$('em',b).textContent=`${N%d} left over`}
+      else if(!s&&ok){miss++;b.classList.add('miss');$('em',b).textContent='missed!'}});
+    const perfect=!wrong&&!miss;const rules=L.ds.map(d=>`<b>${d}</b>: ${why(d)}`).join(' &nbsp;·&nbsp; ');
+    if(perfect){cleared++;const pts=10*level*Math.max(1,right)+Math.ceil(t)*level;score+=pts;toast(stage,good.length?`Shared! +${pts}`:`Right, nobody! +${pts}`,'#be185d');
+      if(cleared%5===0&&level<LV.length-1){level++;later(()=>toast(stage,`Level ${level}!${level===2?' Now groups of 3 too':' Bigger jars!'}`,'#7c3aed'),900,timers)}}
+    else{lives--;stage.classList.add('shake');later(()=>stage.classList.remove('shake'),300,timers);}
+    msg.innerHTML=`${perfect?'':timeout?'Time! ':wrong?'Not fair! ':'Not all of them! '}<div class="r">${rules}</div>`;
+    hud();if(lives<=0)return later(end,2200,timers);later(newJar,perfect?1800:3800,timers)}
+  function tick(dt){if(!run||busy)return;t-=dt;$('.tbar i',root).style.width=Math.max(0,t/T*100)+'%';if(t<=0)submit(true)}
   function start(){lives=3;score=0;level=1;cleared=0;run=true;hud();newJar();stop&&stop();stop=loop(tick)}
   function end(){run=false;stop&&stop();const b=GK.best(key,score);overlay(stage,`<div class="emo">🍬</div><h2>Out of hearts!</h2><p>You shared <b>${cleared}</b> jars. Score <b>${score}</b> · Best ${b}</p><p class="small">Tip: for 3, add up the digits.</p>`,'Play again',start)}
-  lives=3;score=0;level=1;hud();N=2574;drawJar();
-  overlay(stage,`<div class="emo">🍬</div><h2>Sweet Jar Share</h2><p>Which groups of friends can share the sweets <b>fairly</b>, with nothing left over?</p><p>Be quick: no time for long division!</p>`,'Start',start);
+  lives=3;score=0;level=1;hud();N=2574;sel=new Set();busy=true;drawJar();goLabel();
+  overlay(stage,`<div class="emo">🍬</div><h2>Sweet Jar Share</h2><p>Which groups of friends can share the sweets <b>fairly</b>, with nothing left over?</p><p>Pick all the groups, then press <b>Share!</b> Be quick: no time for long division!</p>`,'Start',start);
   return()=>{run=false;stop&&stop();timers.forEach(clearTimeout)};
 }
 
