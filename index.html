@@ -396,6 +396,35 @@ h3.gfold:first-child{margin-top:.4rem}
 .fd .c.flash{animation:fdflash .7s}
 @keyframes fdflash{0%{transform:scale(1.15)}100%{transform:none}}
 .fd .fdprev{padding:10px 14px 16px;text-align:center;min-height:60px;display:flex;flex-direction:column;gap:8px;align-items:center}
+/* prime games */
+.ss{background:linear-gradient(180deg,#fff7ed,#ffedd5);color:var(--ink);min-height:580px}.ss .ovl{background:rgba(255,247,237,.97);justify-content:flex-start;overflow:auto}.ss .hud .lvl{background:rgba(0,0,0,.07)}
+.ss .tbar{height:7px;margin:0 14px;background:rgba(0,0,0,.08);border-radius:4px;overflow:hidden}.ss .tbar i{display:block;height:100%;width:100%;background:#ea580c;transition:width .1s linear}
+.ssq{text-align:center;padding:6px 14px 0;font-size:1rem;min-height:2.6em}
+.ssb{display:grid;gap:3px;padding:8px 10px;max-width:520px;margin:0 auto}
+.ssc{height:34px;border-radius:8px;border:1.5px solid #fed7aa;background:#fff;color:#431407;font:inherit;font-weight:600;font-size:.95rem;cursor:pointer;padding:0;position:relative}
+.ssc.x{background:#f5f5f4;color:#a8a29e;border-color:#e7e5e4;text-decoration:line-through;text-decoration-thickness:2px}
+.ssc.p{background:#16a34a;color:#fff;border-color:#15803d;border-radius:50%}
+.ssc.bad{background:#fee2e2!important;border-color:#ef4444!important;color:#991b1b!important}
+.ssc.fixed{box-shadow:0 0 0 3px #facc15}
+.ssctl{display:flex;flex-direction:column;align-items:center;gap:8px;padding:6px 12px}
+.sspr{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}.sspr .btn:disabled{opacity:.45}
+.sscount{font-weight:600}
+.ssmsg{text-align:center;min-height:1.5em;font-size:.95rem;padding:2px 14px 14px}
+.sslist{display:flex;flex-direction:column;gap:8px;width:100%;max-width:440px;margin-top:6px}
+.sslv{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:14px;border:2px solid #fdba74;background:#fff;font:inherit;text-align:left;cursor:pointer;color:var(--ink)}
+.sslv:disabled{opacity:.5;cursor:default}
+.sslv>b{width:36px;height:36px;border-radius:50%;background:#ea580c;color:#fff;display:grid;place-items:center;flex:none}
+.sslv span{flex:1;display:flex;flex-direction:column}.sslv small{color:var(--mute)}.sslv em{font-style:normal;white-space:nowrap}
+.bigstars{font-size:2rem;letter-spacing:4px}
+.ovl .ghost2{background:none!important;box-shadow:none!important;color:inherit!important;text-decoration:underline;font-size:.95rem!important}
+.pc{background:linear-gradient(180deg,#0c4a6e,#082f49);color:#fff}
+.pc .pcsky{position:relative;height:440px;overflow:hidden;margin:0 8px;border-radius:12px;background:radial-gradient(circle at 20% 10%,rgba(255,255,255,.08),transparent 40%)}
+.pfb{position:absolute;width:52px;height:52px;border-radius:50%;border:3px solid #fff;background:#0ea5e9;color:#fff;font:inherit;font-weight:800;font-size:1.15rem;cursor:pointer;padding:0;box-shadow:0 3px 0 rgba(0,0,0,.25)}
+.pfb.zapped{background:#facc15;color:#422006}
+.fpop{position:absolute;font-weight:800;pointer-events:none;white-space:nowrap;animation:pop .9s ease-out forwards;text-shadow:0 2px 4px rgba(0,0,0,.5)}
+.zp{position:absolute;left:50%;top:45%;transform:translate(-50%,-50%);z-index:9;background:#fff;color:var(--ink);border-radius:18px;padding:16px;text-align:center;box-shadow:0 12px 30px rgba(0,0,0,.4);width:min(320px,86%)}
+.zp p{margin:0 0 10px}.zb{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.pcfoot{text-align:center;font-size:.85rem;padding:8px 12px 12px;opacity:.9}
 </style>
 </head><body>
 <header class="top"><div class="topin"><a class="brand" href="#map"><span class="logo">S1</span><span><b>S1 Maths</b><small>Oreste Campagner · Tallinn European School</small></span></a><nav class="tabs" aria-label="Main"><a href="#map" data-v="map"><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3zM9 3v15M15 6v15"/></svg></span><span>Map</span></a><a href="#sheets" data-v="sheets"><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8zM14 3v5h5M9 13h6M9 17h4"/></svg></span><span>Sheets</span></a><a href="#practice" data-v="practice"><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l4-1 11-11-3-3L5 16zM14 6l3 3"/></svg></span><span>Practice</span></a><a href="#games" data-v="games"><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9h12a3 3 0 0 1 3 3v3a3 3 0 0 1-5 2l-1-1H9l-1 1a3 3 0 0 1-5-2v-3a3 3 0 0 1 3-3zM8 12v3M6.5 13.5h3M15 13h.01M17 14.5h.01"/></svg></span><span>Games</span></a><a href="#test" data-v="test"><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></svg></span><span>Test prep</span><span class="badge">27 Nov</span></a></nav></div></header>
@@ -1086,11 +1115,165 @@ function factorDuel(root,key){
   return()=>{busy=true;timers.forEach(clearTimeout)};
 }
 
+/* ================= PRIME GAMES: Sieve Sweep, Prime Catcher ================= */
+const isPrime=n=>{if(n<2)return false;for(let d=2;d*d<=n;d++)if(n%d===0)return false;return true};
+const spf=n=>{for(let d=2;d*d<=n;d++)if(n%d===0)return d;return n};
+const proof=n=>{const d=spf(n);return`${n} = ${d} × ${n/d}`};
+
+/* ---------- SIEVE SWEEP ---------- */
+function sieveSweep(root,key){
+  const LEVELS=[null,
+    {name:'Guided sieve',sub:'1 to 50 · tap the next prime'},
+    {name:'Do it yourself',sub:'1 to 100 · cross out the multiples yourself'},
+    {name:'Robo’s broken sieve',sub:'Find Robo’s 5 mistakes'},
+    {name:'Prime rows',sub:'Spot the primes, ten at a time'},
+    {name:'Beyond 100',sub:'101 to 150 · which primes do you need?'}];
+  const SK='ss_stars';
+  const getStars=()=>{try{return JSON.parse(localStorage.getItem(SK))||{}}catch(e){return{}}};
+  const setStars=(l,s)=>{const o=getStars();if(!(o[l]>=s)){o[l]=s;try{localStorage.setItem(SK,JSON.stringify(o))}catch(e){}}const tot=Object.values(o).reduce((a,b)=>a+b,0);GK.best(key,tot)};
+  root.innerHTML=`<div class="stage ss"><div class="hud"><span class="hs"></span><span class="lvl lv"></span><span class="tm"></span></div><div class="tbar"><i></i></div>
+    <div class="ssq" aria-live="polite"></div><div class="ssb" role="group" aria-label="Number grid"></div><div class="ssctl"></div><div class="ssmsg" aria-live="polite"></div></div>`;
+  const stage=$('.stage',root),grid=$('.ssb',root),q=$('.ssq',root),ctl=$('.ssctl',root),msg=$('.ssmsg',root);
+  let L,lives,state,run=false,busy=true,t,T,stop=null,timers=[],onCell=null,lo,hi;
+  const hud=()=>{$('.hs',root).textContent=hearts(lives);$('.lv',root).textContent=L?`Level ${L}`:'';$('.tm',root).textContent=T?`⏱ ${Math.max(0,Math.ceil(t))}`:'';$('.tbar',root).style.visibility=T?'visible':'hidden'};
+  const cell=n=>$(`.ssc[data-n="${n}"]`,grid);
+  const setC=(n,cls)=>{const c=cell(n);if(!c)return;c.classList.remove('x','p','bad','sel','hint');if(cls)c.classList.add(...cls.split(' '));c.setAttribute('aria-label',`${n}${cls&&cls.includes('x')?' crossed out':cls&&cls.includes('p')?' prime':''}`)};
+  function drawGrid(a,b,cols=10){lo=a;hi=b;grid.style.gridTemplateColumns=`repeat(${cols},minmax(0,1fr))`;let s='';for(let n=a;n<=b;n++)s+=`<button type="button" class="ssc" data-n="${n}">${n}</button>`;grid.innerHTML=s}
+  grid.onclick=e=>{const c=e.target.closest('.ssc');if(!c||busy||!run||!onCell)return;onCell(+c.dataset.n,c)};
+  const bump=()=>{stage.classList.add('shake');later(()=>stage.classList.remove('shake'),300,timers)};
+  function loseHeart(text){lives--;hud();bump();if(text)msg.innerHTML=text;if(lives<=0){later(()=>finish(false),600,timers);busy=true;return true}return false}
+  function tick(dt){if(!run||busy||!T)return;t-=dt;$('.tbar i',root).style.width=Math.max(0,t/T*100)+'%';$('.tm',root).textContent=`⏱ ${Math.max(0,Math.ceil(t))}`;if(t<=0){busy=true;msg.innerHTML='Time is up!';later(()=>finish(false),700,timers)}}
+  function crossMultiples(p,auto){const ms=[];for(let m=p*2;m<=hi;m+=p)if(m>=lo&&!state[m])ms.push(m);
+    ms.forEach((m,i)=>later(()=>{state[m]='x';setC(m,'x')},auto?30*i:0,timers));return ms.length*(auto?30:0)}
+  const nextOpen=()=>{for(let n=Math.max(2,lo);n<=hi;n++)if(!state[n])return n;return null};
+  function finish(win){run=false;busy=true;const s=win?Math.max(1,lives):0;if(win)setStars(L,s);
+    const stars='⭐'.repeat(s)+'☆'.repeat(3-s);const nxt=win&&L<5;
+    overlay(stage,`<div class="emo">${win?'🧹':'💥'}</div><h2>${win?'Sieve done!':'Try again!'}</h2><p class="bigstars">${stars}</p><p>${win?(L===5?'You know which primes you need, even beyond 100!':'Level '+L+' complete.'):'Out of hearts or time.'}</p>`,
+      nxt?`Level ${L+1} →`:'Choose a level',()=>{nxt?play(L+1):menu()});
+    if(nxt){const o=$('.ovl',stage);o.insertAdjacentHTML('beforeend','<button type="button" class="btn ghost2">All levels</button>');$('.ghost2',o).onclick=()=>{o.remove();menu()}}}
+  function base(l,timeLimit){L=l;lives=3;T=timeLimit||0;t=T;state={};run=true;busy=false;msg.innerHTML='';ctl.innerHTML='';hud()}
+
+  /* L1 + L2: the sieve */
+  function lvSieve(self){base(self?2:1,self?150:0);drawGrid(1,self?100:50);state[1]='x';setC(1,'x one');let cur=null;
+    const ask=()=>{const n=nextOpen();q.innerHTML=`Tap the next <b>prime</b>: the smallest number not crossed out.`;cur=null;ctl.innerHTML=''};
+    const done=()=>{const n=nextOpen();if(n===null||n*n>hi){busy=true;for(let k=2;k<=hi;k++)if(!state[k]){state[k]='p';setC(k,'p')}
+      q.innerHTML=n?`Stop! ${n} × ${n} = ${n*n} is bigger than ${hi}. <b>Everything left is prime!</b>`:'<b>All done!</b>';
+      later(()=>finish(true),1600,timers);return true}return false};
+    const finishPrime=p=>{const left=[];for(let m=p*2;m<=hi;m+=p)if(!state[m])left.push(m);
+      if(left.length){left.forEach(m=>{state[m]='x';setC(m,'x bad')});later(()=>left.forEach(m=>setC(m,'x')),1200,timers);
+        if(loseHeart(`You missed ${left.length===1?'one multiple':left.length+' multiples'} of ${p}: ${left.join(', ')}.`))return}
+      else msg.innerHTML=`All the multiples of ${p} are gone. ✓`;
+      later(()=>{if(!done())ask()},left.length?1300:300,timers)};
+    onCell=(n,c)=>{
+      if(cur===null){const want=nextOpen();
+        if(state[n]==='x'){loseHeart(n===1?'1 is not prime (it has only one factor).':`${n} is already crossed out: ${proof(n)}.`);return}
+        if(state[n]==='p'){msg.textContent=`${n} is already circled.`;return}
+        if(n!==want){loseHeart(`Not yet! The next number not crossed out is <b>${want}</b>.`);return}
+        state[n]='p';setC(n,'p');cur=n;
+        if(!self){busy=true;const d=crossMultiples(n,true);msg.innerHTML=`${n} is prime! Its multiples are crossed out.`;later(()=>{busy=false;if(!done())ask()},d+300,timers)}
+        else{q.innerHTML=`Cross out every multiple of <b>${n}</b>: ${n*2}, ${n*3}, …`;ctl.innerHTML=`<button type="button" class="btn ssdone">Done with ${n} ✓</button>`;$('.ssdone',ctl).onclick=()=>{if(!busy&&run)finishPrime(n)}}
+        return}
+      // self mode, crossing multiples of cur
+      if(state[n]){msg.textContent=state[n]==='x'?`${n} is already crossed out.`:`${n} is circled: it’s prime.`;return}
+      if(n%cur===0){state[n]='x';setC(n,'x');msg.textContent=`${n} = ${cur} × ${n/cur} ✓`}
+      else loseHeart(`${n} is not a multiple of ${cur}: ${n} ÷ ${cur} leaves ${n%cur}.`)};
+    ask();if(!self)msg.innerHTML='1 is already crossed out: it isn’t prime.'}
+
+  /* L3: Robo's broken sieve */
+  function lvBroken(){base(3,120);drawGrid(1,100);const P=shuffle([29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97]),C=shuffle([51,57,87,91,49,77,39,69,93,63,81,33,99,85,95,27]);
+    const nP=rnd(2,3),wrong=new Set([...P.slice(0,nP),...C.slice(0,5-nP)]);let found=0;
+    for(let n=1;n<=100;n++){const pr=isPrime(n),flip=wrong.has(n);state[n]=(pr!==flip)?'p':'x';setC(n,state[n]==='p'?'p':'x'+(n===1?' one':''))}
+    q.innerHTML=`Robo made <b>5 mistakes</b>: a prime crossed out, or a non-prime left circled. Tap them!`;ctl.innerHTML=`<div class="sscount">Found: <b>0</b> / 5</div>`;
+    onCell=(n,c)=>{if(c.classList.contains('fixed'))return;
+      if(wrong.has(n)){found++;const pr=isPrime(n);state[n]=pr?'p':'x';setC(n,(pr?'p':'x')+' fixed');msg.innerHTML=pr?`✓ ${n} is prime: nothing divides it except 1 and ${n}.`:`✓ ${n} isn’t prime: ${proof(n)}.`;$('.sscount b',ctl).textContent=found;
+        if(found===5){busy=true;later(()=>finish(true),900,timers)}}
+      else loseHeart(isPrime(n)?`${n} is prime, so Robo was right to circle it.`:n===1?'1 is not prime, so it’s rightly crossed out.':`${n} = ${spf(n)} × ${n/spf(n)}: Robo was right to cross it out.`)}}
+
+  /* L4: prime rows */
+  function lvRows(){base(4,0);let rows=shuffle([0,1,2,3,4,5,6,7,8,9]).slice(0,8),k=0,sel;
+    const round=()=>{const r=rows[k];const a=r*10+1,b=r*10+10;drawGrid(a,b,5);sel=new Set();T=18;t=T;hud();busy=false;
+      q.innerHTML=`Row ${k+1} of 8: tap <b>all the primes</b> from ${a} to ${b}, then press Check.`;
+      ctl.innerHTML=`<button type="button" class="btn sschk">Check ✓</button>`;$('.sschk',ctl).onclick=()=>{if(!busy&&run)check()};msg.innerHTML=''};
+    const check=(timeout)=>{busy=true;const miss=[];for(let n=lo;n<=hi;n++){if(isPrime(n)){setC(n,'p');if(!sel.has(n))miss.push(n)}else setC(n,'x'+(n===1?' one':''))}
+      let ok=true;if(miss.length){miss.forEach(n=>setC(n,'p bad'));ok=false;if(loseHeart(`${timeout?'Time! ':''}You missed: ${miss.join(', ')}.`))return}
+      else msg.innerHTML='✓ All the primes in this row!';
+      k++;later(()=>{if(k>=rows.length){finish(true)}else round()},ok?900:1800,timers)};
+    onCell=(n,c)=>{if(sel.has(n)||c.classList.contains('x'))return;
+      if(isPrime(n)){sel.add(n);setC(n,'p');msg.textContent=`${n} ✓`}
+      else{setC(n,'x');loseHeart(n===1?'1 is not prime.':`${proof(n)}: not prime.`)}};
+    T=18;t=T;const oldTick=tick;tick=dt=>{if(!run||busy)return;t-=dt;$('.tbar i',root).style.width=Math.max(0,t/T*100)+'%';$('.tm',root).textContent=`⏱ ${Math.max(0,Math.ceil(t))}`;if(t<=0)check(true)};
+    stop&&stop();stop=loop(dt=>tick(dt));round()}
+
+  /* L5: beyond 100 */
+  function lvBeyond(){base(5,0);drawGrid(101,150);const used=new Set();let warned=false;
+    q.innerHTML=`Sieve <b>101 to 150</b>. Tap a prime below to cross out its multiples. When you think you’re done, press <b>Finished</b>.`;
+    ctl.innerHTML=`<div class="sspr">${[2,3,5,7,11,13].map(p=>`<button type="button" class="btn spb" data-p="${p}">×${p}</button>`).join('')}</div><button type="button" class="btn ssfin">Finished: the rest are prime!</button>`;
+    ctl.onclick=e=>{const b=e.target.closest('.spb');if(!b||busy||!run)return;const p=+b.dataset.p;if(used.has(p))return;used.add(p);b.disabled=true;busy=true;const d=crossMultiples(p,true);
+      msg.innerHTML=p===13?`13 wasn’t needed: 13 × 13 = 169 is bigger than 150. (No harm done!)`:`Multiples of ${p} crossed out.`;later(()=>busy=false,d+200,timers)};
+    $('.ssfin',ctl).onclick=()=>{if(busy||!run)return;const left=[];for(let n=101;n<=150;n++)if(!state[n]&&!isPrime(n))left.push(n);
+      if(left.length){left.forEach(n=>setC(n,'bad'));const need=[2,3,5,7,11].filter(p=>!used.has(p));
+        const why=left.includes(121)&&!used.has(11)?'<b>121 = 11 × 11</b> slipped through! Up to 150 you need 11 too, because 11 × 11 = 121 is less than 150.':`Not finished: ${left.slice(0,4).map(proof).join(', ')}.`;
+        if(loseHeart(why+(need.length?` Still to use: ${need.join(', ')}.`:'')))return;later(()=>left.forEach(n=>setC(n,'')),1500,timers);warned=true}
+      else{busy=true;for(let n=101;n<=150;n++)if(!state[n]){state[n]='p';setC(n,'p')}q.innerHTML=`Perfect! 2, 3, 5, 7 and <b>11</b> are enough up to 150, because 13 × 13 = 169 is too big.`;later(()=>finish(true),2000,timers)}};
+    onCell=(n)=>{msg.innerHTML='Use the prime buttons below to cross out multiples.'}}
+
+  function play(l){$$('.ovl',stage).forEach(o=>o.remove());timers.forEach(clearTimeout);timers=[];ctl.onclick=null;tick=tickBase;
+    stop&&stop();stop=loop(dt=>tick(dt));({1:()=>lvSieve(false),2:()=>lvSieve(true),3:lvBroken,4:lvRows,5:lvBeyond})[l]()}
+  const tickBase=tick;
+  function menu(){run=false;busy=true;stop&&stop();const st=getStars();L=0;T=0;lives=3;hud();q.innerHTML='';msg.innerHTML='';ctl.innerHTML='';
+    const items=LEVELS.slice(1).map((lv,i)=>{const l=i+1,s=st[l]||0,open=l===1||(st[l-1]||0)>0;
+      return`<button type="button" class="sslv" data-l="${l}" ${open?'':'disabled'}><b>${open?l:'🔒'}</b><span><strong>${lv.name}</strong><small>${lv.sub}</small></span><em>${'⭐'.repeat(s)}${'☆'.repeat(3-s)}</em></button>`}).join('');
+    const o=overlay(stage,`<div class="emo">🧹</div><h2>Sieve Sweep</h2><p class="small">Find all the primes by crossing out the multiples. Win a level to unlock the next.</p><div class="sslist">${items}</div>`);
+    $('.sslist',o).onclick=e=>{const b=e.target.closest('.sslv');if(!b||b.disabled)return;o.remove();play(+b.dataset.l)}}
+  drawGrid(1,50);state={1:'x'};setC(1,'x one');menu();
+  return()=>{run=false;stop&&stop();timers.forEach(clearTimeout)};
+}
+
+/* ---------- PRIME CATCHER ---------- */
+function primeCatcher(root,key){
+  const TRAPS=[51,57,87,91,49,77,39,69,93,63,81,33,21,27,99,85,95,45,65,55,35,25,15];
+  root.innerHTML=`<div class="stage pc"><div class="hud"><span class="hs"></span><span class="lvl lv"></span><span class="pts"></span></div>
+    <div class="pcsky" aria-live="off"></div><div class="pcfoot">Tap the <b>primes</b> to catch them. Tap a non-prime to <b>zap</b> it, then prove it!</div></div>`;
+  const stage=$('.stage',root),pcsky=$('.pcsky',root);
+  let lives,score,level,caught,items,spawnT,run=false,paused=false,stop=null,timers=[],idc=0;
+  const hud=()=>{$('.hs',root).textContent=hearts(lives);$('.pts',root).textContent=`⭐ ${score}`;$('.lv',root).textContent=`Level ${level}`};
+  const cfg=()=>({max:level===1?50:100,speed:38+level*14+Math.min(40,caught*1.2),every:Math.max(.75,1.55-level*.2-caught*.01),trap:level>=3?.45:.2});
+  function spawn(){const c=cfg();let n;const r=Math.random();
+    if(r<.42){const ps=[];for(let k=2;k<=c.max;k++)if(isPrime(k))ps.push(k);n=pick(ps)}
+    else if(r<.42+c.trap){n=pick(TRAPS.filter(x=>x<=c.max))}
+    else{do{n=rnd(4,c.max)}while(isPrime(n))}
+    const W=pcsky.clientWidth||340,x=rnd(8,Math.max(10,W-60));const el=document.createElement('button');el.type='button';el.className='pfb';el.textContent=n;el.style.left=x+'px';el.style.top='-50px';el.dataset.id=++idc;
+    pcsky.appendChild(el);items.push({id:idc,n,y:-50,el,v:c.speed*(.85+Math.random()*.3)})}
+  function remove(it){items=items.filter(i=>i!==it);it.el.remove()}
+  function pop(it,text,color){const s=document.createElement('div');s.className='fpop';s.textContent=text;s.style.left=it.el.style.left;s.style.top=it.y+'px';s.style.color=color;pcsky.appendChild(s);later(()=>s.remove(),900,timers)}
+  function lose(text){lives--;hud();stage.classList.add('shake');later(()=>stage.classList.remove('shake'),300,timers);toast(stage,text,'#f87171');if(lives<=0)end()}
+  pcsky.onclick=e=>{const b=e.target.closest('.pfb');if(!b||!run||paused)return;const it=items.find(i=>i.id==b.dataset.id);if(!it)return;
+    if(isPrime(it.n)){score+=10*level;caught++;pop(it,'+'+10*level,'#22c55e');remove(it);hud();if(caught%12===0&&level<3){level++;hud();toast(stage,`Level ${level}! ${level===2?'Up to 100':'Tricky numbers!'}`,'#a78bfa')}}
+    else zap(it)};
+  function zap(it){paused=true;it.el.classList.add('zapped');const p=document.createElement('div');p.className='zp';
+    p.innerHTML=`<p>⚡ Zap! <b>${it.n}</b> is not prime.<br>Which number divides it?</p><div class="zb">${[2,3,5,7].map(d=>`<button type="button" class="btn" data-d="${d}">÷ ${d}</button>`).join('')}</div>`;
+    stage.appendChild(p);$('button',p).focus({preventScroll:true});
+    p.onclick=e=>{const b=e.target.closest('[data-d]');if(!b)return;const d=+b.dataset.d;p.remove();paused=false;
+      if(it.n%d===0){score+=15*level;pop(it,`${it.n} = ${d} × ${it.n/d}  +${15*level}`,'#facc15');remove(it);hud()}
+      else{pop(it,proof(it.n),'#f87171');remove(it);lose(`${it.n} ÷ ${d} doesn’t work!`)}}}
+  function tick(dt){if(!run||paused)return;spawnT-=dt;if(spawnT<=0){spawn();spawnT=cfg().every}
+    const H=pcsky.clientHeight||420;for(const it of items.slice()){it.y+=it.v*dt;it.el.style.top=it.y+'px';
+      if(it.y>H-6){remove(it);if(isPrime(it.n)){lose(`${it.n} escaped: it was prime!`);if(!run)return}}}}
+  function start(){$$('.zp',stage).forEach(z=>z.remove());pcsky.innerHTML='';items=[];lives=3;score=0;level=1;caught=0;spawnT=.3;paused=false;run=true;hud();stop&&stop();stop=loop(tick)}
+  function end(){run=false;stop&&stop();$$('.zp',stage).forEach(z=>z.remove());const b=GK.best(key,score);
+    overlay(stage,`<div class="emo">🧺</div><h2>Game over!</h2><p>You caught <b>${caught}</b> primes. Score <b>${score}</b> · Best ${b}</p><p class="small">Tricky ones: 51 = 3 × 17, 57 = 3 × 19, 91 = 7 × 13.</p>`,'Play again',start)}
+  items=[];lives=3;score=0;level=1;caught=0;hud();
+  overlay(stage,`<div class="emo">🧺</div><h2>Prime Catcher</h2><p>Numbers are falling! Tap the <b>primes</b> to catch them. Don’t let a prime escape!</p><p>Tap a <b>non-prime</b> to zap it, then pick a number that divides it for bonus points.</p><p class="small">Up to 100 you only need to try 2, 3, 5 and 7.</p>`,'Start',start);
+  return()=>{run=false;stop&&stop();timers.forEach(clearTimeout)};
+}
+
 gameHub($('#gpick'),$('#gpanel'),{
+  sj:{topic:'Divisibility and primes',title:'Sweet Jar Share',emo:'🍬',desc:'Which groups can share the sweets with nothing left over?',cls:'g-red',run:sweetJar},
+  ss:{topic:'Divisibility and primes',title:'Sieve Sweep',emo:'🧹',desc:'Cross out the multiples to find every prime. Five levels!',cls:'g-orange',run:sieveSweep},
+  pc:{topic:'Divisibility and primes',title:'Prime Catcher',emo:'🧺',desc:'Catch the falling primes. Zap the others and prove it!',cls:'g-blue',run:primeCatcher},
   rg:{topic:'Factors',title:'Rectangle Garden',emo:'🌷',desc:'Plant the flowers in every possible rectangle: find all the factor pairs.',cls:'g-green',run:rectGarden},
   fr:{topic:'Factors',title:'Factor Rainbow',emo:'🌈',desc:'Tap a factor and its partner to build the rainbow before time runs out.',cls:'g-purple',run:factorRainbow},
   fd:{topic:'Factors',title:'Factor Duel',emo:'🤖',desc:'Take a number, Robo gets its factors. Outsmart the robot!',cls:'g-blue',run:factorDuel},
-  sj:{topic:'Divisibility',title:'Sweet Jar Share',emo:'🍬',desc:'Which groups can share the sweets with nothing left over?',cls:'g-red',run:sweetJar},
   bs:{topic:'Coordinates',title:'Coordinate Battleships',emo:'⚓',desc:'Sink the robot’s fleet with (x, y) torpedoes.',cls:'g-blue',run:battleships},
   bug:{topic:'Integers and BIDMAS',title:"Johnny's Bug Hunt",emo:'🐞',desc:'Squash the wrong lines before they escape!',cls:'g-purple',run:bugHunt},
   bp:{topic:'Integers and BIDMAS',title:'BIDMAS Bubble Pop',emo:'🫧',desc:'Pop the operation that comes first.',cls:'g-orange',run:bubblePop},
