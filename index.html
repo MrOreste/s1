@@ -1233,7 +1233,7 @@ function sieveSweep(root,key){
 function primeCatcher(root,key){
   const TRAPS=[51,57,87,91,49,77,39,69,93,63,81,33,21,27,99,85,95,45,65,55,35,25,15];
   root.innerHTML=`<div class="stage pc"><div class="hud"><span class="hs"></span><span class="lvl lv"></span><span class="pts"></span></div>
-    <div class="pcsky" aria-live="off"></div><div class="pcfoot">Tap the <b>primes</b> to catch them. Tap a non-prime to <b>zap</b> it, then prove it!</div></div>`;
+    <div class="pcsky" aria-live="off"></div><div class="pcfoot">Tap only the <b>primes</b>! Tapped a non-prime? Say what divides it to keep your heart.</div></div>`;
   const stage=$('.stage',root),pcsky=$('.pcsky',root);
   let lives,score,level,caught,items,spawnT,run=false,paused=false,stop=null,timers=[],idc=0;
   const hud=()=>{$('.hs',root).textContent=hearts(lives);$('.pts',root).textContent=`⭐ ${score}`;$('.lv',root).textContent=`Level ${level}`};
@@ -1251,11 +1251,11 @@ function primeCatcher(root,key){
     if(isPrime(it.n)){score+=10*level;caught++;pop(it,'+'+10*level,'#22c55e');remove(it);hud();if(caught%12===0&&level<3){level++;hud();toast(stage,`Level ${level}! ${level===2?'Up to 100':'Tricky numbers!'}`,'#a78bfa')}}
     else zap(it)};
   function zap(it){paused=true;it.el.classList.add('zapped');const p=document.createElement('div');p.className='zp';
-    p.innerHTML=`<p>⚡ Zap! <b>${it.n}</b> is not prime.<br>Which number divides it?</p><div class="zb">${[2,3,5,7].map(d=>`<button type="button" class="btn" data-d="${d}">÷ ${d}</button>`).join('')}</div>`;
+    p.innerHTML=`<p>Oops! <b>${it.n}</b> is not prime.<br>Which number divides it? Get it right to keep your heart.</p><div class="zb">${[2,3,5,7].map(d=>`<button type="button" class="btn" data-d="${d}">÷ ${d}</button>`).join('')}</div>`;
     stage.appendChild(p);$('button',p).focus({preventScroll:true});
     p.onclick=e=>{const b=e.target.closest('[data-d]');if(!b)return;const d=+b.dataset.d;p.remove();paused=false;
-      if(it.n%d===0){score+=15*level;pop(it,`${it.n} = ${d} × ${it.n/d}  +${15*level}`,'#facc15');remove(it);hud()}
-      else{pop(it,proof(it.n),'#f87171');remove(it);lose(`${it.n} ÷ ${d} doesn’t work!`)}}}
+      if(it.n%d===0){pop(it,`${it.n} = ${d} × ${it.n/d}: heart saved`,'#facc15');remove(it);hud()}
+      else{pop(it,proof(it.n),'#f87171');remove(it);lose(`${it.n} isn’t prime: ${proof(it.n)}`)}}}
   function tick(dt){if(!run||paused)return;spawnT-=dt;if(spawnT<=0){spawn();spawnT=cfg().every}
     const H=pcsky.clientHeight||420;for(const it of items.slice()){it.y+=it.v*dt;it.el.style.top=it.y+'px';
       if(it.y>H-6){remove(it);if(isPrime(it.n)){lose(`${it.n} escaped: it was prime!`);if(!run)return}}}}
@@ -1263,7 +1263,7 @@ function primeCatcher(root,key){
   function end(){run=false;stop&&stop();$$('.zp',stage).forEach(z=>z.remove());const b=GK.best(key,score);
     overlay(stage,`<div class="emo">🧺</div><h2>Game over!</h2><p>You caught <b>${caught}</b> primes. Score <b>${score}</b> · Best ${b}</p><p class="small">Tricky ones: 51 = 3 × 17, 57 = 3 × 19, 91 = 7 × 13.</p>`,'Play again',start)}
   items=[];lives=3;score=0;level=1;caught=0;hud();
-  overlay(stage,`<div class="emo">🧺</div><h2>Prime Catcher</h2><p>Numbers are falling! Tap the <b>primes</b> to catch them. Don’t let a prime escape!</p><p>Tap a <b>non-prime</b> to zap it, then pick a number that divides it for bonus points.</p><p class="small">Up to 100 you only need to try 2, 3, 5 and 7.</p>`,'Start',start);
+  overlay(stage,`<div class="emo">🧺</div><h2>Prime Catcher</h2><p>Numbers are falling! Tap the <b>primes</b> to catch them. Don’t let a prime escape!</p><p>Tap a <b>non-prime</b> by mistake and you must say what divides it. Wrong answer: you lose a heart.</p><p class="small">Up to 100 you only need to try 2, 3, 5 and 7.</p>`,'Start',start);
   return()=>{run=false;stop&&stop();timers.forEach(clearTimeout)};
 }
 
@@ -1273,7 +1273,7 @@ gameHub($('#gpick'),$('#gpanel'),{
   fd:{topic:'Factors',title:'Factor Duel',emo:'🤖',desc:'Take a number, Robo gets its factors. Outsmart the robot!',cls:'g-blue',run:factorDuel},
   sj:{topic:'Divisibility and primes',title:'Sweet Jar Share',emo:'🍬',desc:'Which groups can share the sweets with nothing left over?',cls:'g-red',run:sweetJar},
   ss:{topic:'Divisibility and primes',title:'Sieve Sweep',emo:'🧹',desc:'Cross out the multiples to find every prime. Five levels!',cls:'g-orange',run:sieveSweep},
-  pc:{topic:'Divisibility and primes',title:'Prime Catcher',emo:'🧺',desc:'Catch the falling primes. Zap the others and prove it!',cls:'g-blue',run:primeCatcher},
+  pc:{topic:'Divisibility and primes',title:'Prime Catcher',emo:'🧺',desc:'Catch the falling primes. Only the primes!',cls:'g-blue',run:primeCatcher},
   bs:{topic:'Coordinates',title:'Coordinate Battleships',emo:'⚓',desc:'Sink the robot’s fleet with (x, y) torpedoes.',cls:'g-blue',run:battleships},
   bug:{topic:'Integers and BIDMAS',title:"Johnny's Bug Hunt",emo:'🐞',desc:'Squash the wrong lines before they escape!',cls:'g-purple',run:bugHunt},
   bp:{topic:'Integers and BIDMAS',title:'BIDMAS Bubble Pop',emo:'🫧',desc:'Pop the operation that comes first.',cls:'g-orange',run:bubblePop},
